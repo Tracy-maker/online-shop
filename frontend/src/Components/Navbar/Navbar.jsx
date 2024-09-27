@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import "./Navbar.css";
 import { Link } from "react-router-dom";
 import { ShopContext } from "../../Context/ShopContext";
@@ -47,7 +47,7 @@ const Navbar = () => {
           style={{ width: "100px" }}
           border="0"
         />
-        <p>EcoShop</p>
+      
       </div>
       <img
         ref={toggleRef}

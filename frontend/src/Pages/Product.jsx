@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { ShopContext } from "../Context/ShopContext";
 import { useParams } from "react-router";
 import Breadcrum from "../Components/Breadcrums/Breadcrum";

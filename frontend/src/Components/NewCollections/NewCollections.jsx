@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import "./NewCollections.css";
+import { useEffect, useState } from "react";
 import Item from "../Item/Item";
 
 const NewCollections = () => {
@@ -12,11 +11,13 @@ const NewCollections = () => {
   }, []);
 
   return (
-    <div className="new-collections">
-      <h1>NEW COLLECTIONS</h1>
-      <hr />
+    <div className="flex flex-col items-center gap-2 mb-24">
+      <h1 className="text-gray-900 text-5xl font-semibold lg:text-4xl md:text-3xl sm:text-2xl">
+        NEW COLLECTIONS
+      </h1>
+      <hr className="w-52 h-1.5 rounded-lg bg-gray-800 lg:w-40 lg:h-1 md:w-32 md:h-[3px] sm:w-24" />
 
-      <div className="collections">
+      <div className="grid grid-cols-4 gap-8 mt-12 lg:gap-5 md:gap-4 sm:grid-cols-2">
         {newCollection.map((item, i) => {
           return (
             <Item

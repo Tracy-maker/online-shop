@@ -1,48 +1,79 @@
 import React from "react";
-import "./Footer.css";
 
 const Footer = () => {
   return (
-    <div className="footer">
-      <div className="footer-logo">
+    <footer className="flex flex-col justify-center items-center gap-10 p-8 bg-gray-800 text-white">
+      {/* Logo Section */}
+      <div className="flex items-center gap-3">
         <img
           src="https://img.icons8.com/?size=60&id=AGeG6Wx3Id3W&format=png"
           alt="logo"
+          className="w-12"
         />
-        <p>Rimberio ONLINE SOLUTION</p>
+        <p className="text-2xl font-bold">Rimberio ONLINE SOLUTION</p>
       </div>
-      <ul className="footer-links">
-        <li>Company</li>
-        <li>Products</li>
-        <li>Offices</li>
-        <li>About</li>
-        <li>Contact</li>
+
+      {/* Links Section */}
+      <ul className="flex flex-wrap justify-center gap-8 text-base">
+        <li className="cursor-pointer hover:text-gray-400 transition">Home</li>
+        <li className="cursor-pointer hover:text-gray-400 transition">Men</li>
+        <li className="cursor-pointer hover:text-gray-400 transition">Women</li>
+        <li className="cursor-pointer hover:text-gray-400 transition">Kids</li>
+        <li className="cursor-pointer hover:text-gray-400 transition">
+          Accessories
+        </li>
+        <li className="cursor-pointer hover:text-gray-400 transition">About</li>
+        <li className="cursor-pointer hover:text-gray-400 transition">
+          Contact
+        </li>
       </ul>
-      <div className="footer-social-icon">
-        <div className="footer-icons-container">
+
+      {/* Social Icons Section */}
+      <div className="flex gap-4">
+        <div className="p-3 bg-gray-700 rounded-full hover:bg-gray-600 transition">
           <img
             src="https://img.icons8.com/?size=60&id=Plswr633TJUP&format=png"
-            alt="instagram"
+            alt="Instagram"
+            className="w-8"
           />
         </div>
-        <div className="footer-icons-container">
+        <div className="p-3 bg-gray-700 rounded-full hover:bg-gray-600 transition">
           <img
             src="https://img.icons8.com/?size=60&id=nd6SS1Eo5syT&format=png"
             alt="Facebook"
+            className="w-8"
           />
         </div>
-        <div className="footer-icons-container">
+        <div className="p-3 bg-gray-700 rounded-full hover:bg-gray-600 transition">
           <img
             src="https://img.icons8.com/?size=60&id=TDvCl4bDEGpX&format=png"
-            alt="Tik tok"
+            alt="TikTok"
+            className="w-8"
           />
         </div>
       </div>
-      <div className="footer-copyright">
-        <hr />
-        <p>copyright @ 2023 - All Right Reserved.</p>
+
+      {/* Copyright Section */}
+      <div className="flex flex-col items-center gap-3 w-full text-center">
+        <hr className="w-4/5 border-none h-1 bg-gray-600 rounded-full" />
+        <p className="text-sm">
+          © 2023 Rimberio Online Solution - All Rights Reserved.
+        </p>
+        <p className="text-sm">
+          <a href="#" className="hover:text-gray-400 transition">
+            Privacy Policy
+          </a>{" "}
+          |{" "}
+          <a href="#" className="hover:text-gray-400 transition">
+            Terms of Service
+          </a>{" "}
+          |{" "}
+          <a href="#" className="hover:text-gray-400 transition">
+            Return Policy
+          </a>
+        </p>
       </div>
-    </div>
+    </footer>
   );
 };
 
