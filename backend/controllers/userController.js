@@ -59,6 +59,7 @@ exports.admin = async (req, res) => {
 exports.register = async (req, res) => {
   try {
     const { name, email, password, isAdmin } = req.body;
+    console.log("Received data:", req.body); 
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ success: false, message: "User already exists" });
@@ -84,6 +85,7 @@ exports.register = async (req, res) => {
       token,
     });
   } catch (error) {
+    console.error("Error in register function:", error); 
     res.status(500).json({ error: "Failed to register user" });
   }
 };
