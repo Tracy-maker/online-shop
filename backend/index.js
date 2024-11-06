@@ -4,7 +4,7 @@ const cors = require("cors");
 const connectDB = require("./config/db"); 
 const productRoutes = require("./routes/productRoutes");
 const userRoutes = require("./routes/userRoutes");
-const connectCloudinary = require("./config/cloudinary"); // Import connectCloudinary
+const connectCloudinary = require("./config/cloudinary");
 
 const app = express();
 const port = process.env.PORT || 4000;
@@ -21,9 +21,7 @@ connectCloudinary();
 // Routes
 app.use("/products", productRoutes);
 app.use("/users", userRoutes);
-
-//api endpoints
-app.use("/api/user',userRouter");
+app.use("/api/user", userRoutes); 
 
 // Server Listener
 app.listen(port, () => {
