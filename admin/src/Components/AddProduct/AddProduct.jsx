@@ -1,5 +1,4 @@
 import { useState } from "react";
-import "./AddProduct.css";
 
 const AddProduct = () => {
   const [image, setImage] = useState(false);
@@ -20,7 +19,6 @@ const AddProduct = () => {
   };
 
   const add_Product = async () => {
-    console.log(productDetails);
     let responseData;
     let product = productDetails;
 
@@ -41,7 +39,6 @@ const AddProduct = () => {
 
     if (responseData.success) {
       product.image = responseData.image_url;
-      console.log(product);
       await fetch("http://localhost:4000/addproduct", {
         method: "POST",
         headers: {
@@ -58,53 +55,62 @@ const AddProduct = () => {
   };
 
   return (
-    <div className="add-product">
-      <div className="add-product-itemfield">
-        <p>Product title</p>
+    <div className="max-w-3xl mx-auto p-10 bg-white shadow-lg rounded-lg mt-10">
+      <h2 className="text-2xl font-semibold mb-6 text-gray-700">Add New Product</h2>
+      
+      <div className="mb-4">
+        <label className="block text-gray-600 mb-2">Product Title</label>
         <input
           value={productDetails.name}
           onChange={changeHandler}
           type="text"
           name="name"
-          placeholder="Type here"
+          placeholder="Enter product name"
+          className="w-full h-12 px-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
         />
       </div>
-      <div className="add-product-price">
-        <div className="add-product-itemfield">
-          <p>Price</p>
+      
+      <div className="flex gap-6 mb-4">
+        <div className="w-1/2">
+          <label className="block text-gray-600 mb-2">Price</label>
           <input
             onChange={changeHandler}
             value={productDetails.old_price}
             type="text"
             name="old_price"
-            placeholder="Type here"
+            placeholder="Enter original price"
+            className="w-full h-12 px-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
         </div>
-        <div className="add-product-itemfield">
-          <p>Offer Price</p>
+        <div className="w-1/2">
+          <label className="block text-gray-600 mb-2">Offer Price</label>
           <input
             value={productDetails.new_price}
             type="text"
             name="new_price"
-            placeholder="Type here"
+            placeholder="Enter offer price"
             onChange={changeHandler}
+            className="w-full h-12 px-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
         </div>
       </div>
-      <div className="add-product-itemfield">
-        <p>Product Category</p>
+      
+      <div className="mb-4">
+        <label className="block text-gray-600 mb-2">Product Category</label>
         <select
           value={productDetails.category}
           onChange={changeHandler}
           name="category"
-          className="add-product-selector"
+          className="w-full h-12 px-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
         >
           <option value="women">Women</option>
           <option value="men">Men</option>
-          <option value="kids">Kid</option>
+          <option value="kids">Kids</option>
         </select>
       </div>
-      <div className="add-product-itemfield">
+      
+      <div className="mb-6">
+        <label className="block text-gray-600 mb-2">Product Image</label>
         <label htmlFor="file-input">
           <img
             src={
@@ -112,7 +118,8 @@ const AddProduct = () => {
                 ? URL.createObjectURL(image)
                 : "https://img.icons8.com/?size=64&id=42879&format=png"
             }
-            className="add-product-thumbnail-img"
+            className="h-56 w-56 rounded-md object-cover border border-gray-300 p-2 mb-4"
+            alt="Product"
           />
         </label>
         <input
@@ -120,14 +127,19 @@ const AddProduct = () => {
           type="file"
           name="image"
           id="file-input"
-          hidden
+          className="hidden"
         />
+        <label
+          htmlFor="file-input"
+          className="bg-blue-500 text-white px-6 py-2 rounded-md cursor-pointer hover:bg-blue-600"
+        >
+          Upload Image
+        </label>
       </div>
+
       <button
-        onClick={() => {
-          add_Product();
-        }}
-        className="add-product-btn"
+        onClick={add_Product}
+        className="w-full bg-blue-500 text-white py-3 rounded-md hover:bg-blue-600 transition-colors"
       >
         ADD
       </button>

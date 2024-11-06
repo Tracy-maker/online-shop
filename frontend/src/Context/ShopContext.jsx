@@ -1,4 +1,5 @@
-import React, { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
+import PropTypes from "prop-types";
 
 export const ShopContext = createContext(null);
 
@@ -10,7 +11,7 @@ const getDefaultCart = () => {
   return cart;
 };
 
-const ShopContextProvider = (props) => {
+const ShopContextProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState(getDefaultCart());
   const [all_product, setAllProduct] = useState([]);
 
@@ -30,7 +31,7 @@ const ShopContextProvider = (props) => {
           "auth-token": `${localStorage.getItem("auth-token")}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ "itemId": itemId }),
+        body: JSON.stringify({ itemId }),
       })
         .then((response) => response.json())
         .then((data) => console.log(data));
@@ -47,7 +48,7 @@ const ShopContextProvider = (props) => {
           "auth-token": `${localStorage.getItem("auth-token")}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ "itemId": itemId }),
+        body: JSON.stringify({ itemId }),
       })
         .then((response) => response.json())
         .then((data) => console.log(data));
@@ -56,7 +57,6 @@ const ShopContextProvider = (props) => {
 
   const getTotalCartAmount = () => {
     let totalAmount = 0;
-
     for (const item in cartItems) {
       if (cartItems[item] > 0) {
         let itemInfo = all_product.find(
@@ -77,6 +77,7 @@ const ShopContextProvider = (props) => {
     }
     return totalItem;
   };
+
   const contextValue = {
     getTotalCartAmount,
     getTotalCartItems,
@@ -85,10 +86,16 @@ const ShopContextProvider = (props) => {
     addToCart,
     removeFromCart,
   };
+
   return (
     <ShopContext.Provider value={contextValue}>
-      {props.children}
+      {children}
     </ShopContext.Provider>
   );
 };
+
+ShopContextProvider.propTypes = {
+  children: PropTypes.node.isRequired,
+};
+
 export default ShopContextProvider;

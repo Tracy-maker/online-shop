@@ -1,9 +1,11 @@
 import { useContext } from "react";
+import PropTypes from "prop-types";
 import { ShopContext } from "../Context/ShopContext";
 import Item from "../Components/Item/Item";
 
 const ShopCategory = (props) => {
   const { all_product } = useContext(ShopContext);
+  
   return (
     <div>
       <img
@@ -13,8 +15,7 @@ const ShopCategory = (props) => {
       />
       <div className="flex justify-between items-center mx-[160px] my-4 lg:w-[90%] lg:mx-auto">
         <p className="text-lg">
-          <span className="font-semibold">Showing 1-12 </span> out of 36
-          products
+          <span className="font-semibold">Showing 1-12 </span> out of 36 products
         </p>
         <div className="px-5 py-2 border border-gray-400 rounded-full text-sm lg:px-4 lg:py-2 lg:text-[15px]">
           Sort by
@@ -48,6 +49,12 @@ const ShopCategory = (props) => {
       </div>
     </div>
   );
+};
+
+
+ShopCategory.propTypes = {
+  banner: PropTypes.string.isRequired,
+  category: PropTypes.string.isRequired,
 };
 
 export default ShopCategory;

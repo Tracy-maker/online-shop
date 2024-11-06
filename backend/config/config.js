@@ -1,4 +1,5 @@
 module.exports = {
-  secret: process.env.JWT_SECRET || "secret_ecom",
-  jwtExpire: "24h",
-};
+    dbURI: process.env.MONGODB_URI,
+    port: process.env.PORT || 4000
+  };
+  

@@ -3,9 +3,11 @@ import Admin from "./Pages/Admin/Admin";
 
 function App() {
   return (
-    <div>
+    <div className="min-h-screen bg-gray-100">
       <Navbar />
-      <Admin />
+      <main className="p-6">
+        <Admin />
+      </main>
     </div>
   );
 }

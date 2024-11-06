@@ -18,7 +18,7 @@ const About = () => {
         pieces that fit your lifestyle.
       </p>
       <p className="text-lg text-gray-700">
-        Thank you for choosing Rimberio Online Solution. We're excited to have
+        Thank you for choosing Rimberio Online Solution. We&apos;re excited to have
         you as a part of our fashion community, and we look forward to
         continuing to serve you.
       </p>
