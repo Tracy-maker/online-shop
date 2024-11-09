@@ -5,9 +5,9 @@ import ListProduct from "../../Components/ListProduct/ListProduct";
 
 const Admin = () => {
   return (
-    <div className="flex min-h-screen">
+    <div className="flex min-h-fit">
       <Sidebar />
-      <div className="flex-grow bg-white p-8 rounded-lg shadow-md mx-4">
+      <div className="flex-grow mx-4">
         <Routes>
           <Route path="/addproduct" element={<AddProduct />} />
           <Route path="/listproduct" element={<ListProduct />} />

@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 const AddProduct = () => {
-  const [image, setImage] = useState(false);
+  const [image, setImage] = useState(null);
   const [productDetails, setProductDetails] = useState({
     name: "",
     image: "",
@@ -55,93 +55,105 @@ const AddProduct = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto p-10 bg-white shadow-lg rounded-lg mt-10">
-      <h2 className="text-2xl font-semibold mb-6 text-gray-700">Add New Product</h2>
-      
-      <div className="mb-4">
-        <label className="block text-gray-600 mb-2">Product Title</label>
+    <div className="max-w-2xl mx-auto p-10 bg-white shadow-xl rounded-2xl ">
+      <h2 className="text-3xl font-semibold text-gray-800 mb-8 text-center">
+        Add New Product
+      </h2>
+
+      <div className="mb-5">
+        <label className="block text-gray-700 font-medium mb-2">
+          Product Title
+        </label>
         <input
           value={productDetails.name}
           onChange={changeHandler}
           type="text"
           name="name"
           placeholder="Enter product name"
-          className="w-full h-12 px-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 shadow-sm"
         />
       </div>
-      
-      <div className="flex gap-6 mb-4">
+
+      <div className="flex gap-5 mb-5">
         <div className="w-1/2">
-          <label className="block text-gray-600 mb-2">Price</label>
+          <label className="block text-gray-700 font-medium mb-2">
+            Original Price
+          </label>
           <input
             onChange={changeHandler}
             value={productDetails.old_price}
-            type="text"
+            type="number"
             name="old_price"
-            placeholder="Enter original price"
-            className="w-full h-12 px-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+            placeholder="Original price"
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 shadow-sm"
           />
         </div>
         <div className="w-1/2">
-          <label className="block text-gray-600 mb-2">Offer Price</label>
+          <label className="block text-gray-700 font-medium mb-2">
+            Offer Price
+          </label>
           <input
             value={productDetails.new_price}
-            type="text"
+            type="number"
             name="new_price"
-            placeholder="Enter offer price"
+            placeholder="Offer price"
             onChange={changeHandler}
-            className="w-full h-12 px-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 shadow-sm"
           />
         </div>
       </div>
-      
-      <div className="mb-4">
-        <label className="block text-gray-600 mb-2">Product Category</label>
+
+      <div className="mb-5">
+        <label className="block text-gray-700 font-medium mb-2">Category</label>
         <select
           value={productDetails.category}
           onChange={changeHandler}
           name="category"
-          className="w-full h-12 px-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 shadow-sm"
         >
           <option value="women">Women</option>
           <option value="men">Men</option>
           <option value="kids">Kids</option>
         </select>
       </div>
-      
+
       <div className="mb-6">
-        <label className="block text-gray-600 mb-2">Product Image</label>
-        <label htmlFor="file-input">
-          <img
-            src={
-              image
-                ? URL.createObjectURL(image)
-                : "https://img.icons8.com/?size=64&id=42879&format=png"
-            }
-            className="h-56 w-56 rounded-md object-cover border border-gray-300 p-2 mb-4"
-            alt="Product"
+        <label className="block text-gray-700 font-medium mb-2">
+          Product Image
+        </label>
+        <div className="flex items-center">
+          <label htmlFor="file-input" className="cursor-pointer">
+            <img
+              src={
+                image
+                  ? URL.createObjectURL(image)
+                  : "https://img.icons8.com/?size=64&id=42879&format=png"
+              }
+              className="h-36 w-36 rounded-lg object-cover border border-gray-300 shadow-sm"
+              alt="Product"
+            />
+          </label>
+          <input
+            onChange={imageHandler}
+            type="file"
+            name="image"
+            id="file-input"
+            className="hidden"
           />
-        </label>
-        <input
-          onChange={imageHandler}
-          type="file"
-          name="image"
-          id="file-input"
-          className="hidden"
-        />
-        <label
-          htmlFor="file-input"
-          className="bg-blue-500 text-white px-6 py-2 rounded-md cursor-pointer hover:bg-blue-600"
-        >
-          Upload Image
-        </label>
+          <label
+            htmlFor="file-input"
+            className="ml-4 bg-blue-500 text-white px-5 py-2 rounded-lg cursor-pointer hover:bg-blue-600 transition-colors shadow-sm"
+          >
+            Upload Image
+          </label>
+        </div>
       </div>
 
       <button
         onClick={add_Product}
-        className="w-full bg-blue-500 text-white py-3 rounded-md hover:bg-blue-600 transition-colors"
+        className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-all font-medium shadow-lg"
       >
-        ADD
+        Add Product
       </button>
     </div>
   );
