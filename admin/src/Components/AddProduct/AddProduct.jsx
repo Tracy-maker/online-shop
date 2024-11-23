@@ -9,6 +9,7 @@ const AddProduct = () => {
     new_price: "",
     old_price: "",
   });
+  const [loading, setLoading] = useState(false); 
 
   const imageHandler = (e) => {
     setImage(e.target.files[0]);
@@ -18,51 +19,83 @@ const AddProduct = () => {
     setProductDetails({ ...productDetails, [e.target.name]: e.target.value });
   };
 
+  const validateForm = () => {
+    if (!productDetails.name || !productDetails.new_price || !productDetails.old_price || !image) {
+      alert("Please fill in all required fields and upload an image.");
+      return false;
+    }
+    return true;
+  };
+
   const add_Product = async () => {
-    let responseData;
-    let product = productDetails;
+    if (!validateForm()) return;
 
-    let formData = new FormData();
-    formData.append("product", image);
+    setLoading(true); 
 
-    await fetch("http://localhost:4000/upload", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-      },
-      body: formData,
-    })
-      .then((resp) => resp.json())
-      .then((data) => {
-        responseData = data;
+    try {
+      // Upload the image
+      const formData = new FormData();
+      formData.append("product", image);
+
+      const uploadResponse = await fetch("http://localhost:4000/upload", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+        },
+        body: formData,
       });
 
-    if (responseData.success) {
-      product.image = responseData.image_url;
-      await fetch("http://localhost:4000/addproduct", {
+      if (!uploadResponse.ok) {
+        throw new Error("Image upload failed.");
+      }
+
+      const uploadData = await uploadResponse.json();
+      if (!uploadData.success) {
+        throw new Error("Image upload failed.");
+      }
+
+      // Set the image URL in product details
+      const product = { ...productDetails, image: uploadData.image_url };
+
+      // Add the product
+      const addResponse = await fetch("http://localhost:4000/addproduct", {
         method: "POST",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
         },
         body: JSON.stringify(product),
-      })
-        .then((resp) => resp.json())
-        .then((data) => {
-          data.success ? alert("Product Added") : alert("Failed");
-        });
+      });
+
+      if (!addResponse.ok) {
+        throw new Error("Failed to add product.");
+      }
+
+      const addData = await addResponse.json();
+      if (addData.success) {
+        alert("Product successfully added!");
+        setProductDetails({ name: "", image: "", category: "women", new_price: "", old_price: "" });
+        setImage(null); // Clear image preview
+      } else {
+        throw new Error("Failed to add product.");
+      }
+    } catch (error) {
+      alert(error.message);
+    } finally {
+      setLoading(false); // End loading
     }
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-10 bg-white shadow-xl rounded-2xl ">
-      <h2 className="text-3xl font-semibold text-gray-800 mb-8 text-center">
+    <div className="max-w-3xl mx-auto p-8 bg-gradient-to-br from-gray-50 to-gray-100 shadow-lg rounded-lg">
+      <h2 className="text-3xl font-bold text-gray-800 text-center mb-8">
         Add New Product
       </h2>
 
-      <div className="mb-5">
-        <label className="block text-gray-700 font-medium mb-2">
-          Product Title
+      {/* Product Title */}
+      <div className="mb-6">
+        <label className="block text-gray-600 font-medium mb-2">
+          Product Title <span className="text-red-500">*</span>
         </label>
         <input
           value={productDetails.name}
@@ -70,46 +103,48 @@ const AddProduct = () => {
           type="text"
           name="name"
           placeholder="Enter product name"
-          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 shadow-sm"
+          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 transition shadow-sm"
         />
       </div>
 
-      <div className="flex gap-5 mb-5">
-        <div className="w-1/2">
-          <label className="block text-gray-700 font-medium mb-2">
-            Original Price
+      {/* Price Inputs */}
+      <div className="grid grid-cols-2 gap-6 mb-6">
+        <div>
+          <label className="block text-gray-600 font-medium mb-2">
+            Original Price <span className="text-red-500">*</span>
           </label>
           <input
-            onChange={changeHandler}
             value={productDetails.old_price}
+            onChange={changeHandler}
             type="number"
             name="old_price"
-            placeholder="Original price"
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 shadow-sm"
+            placeholder="Enter original price"
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 transition shadow-sm"
           />
         </div>
-        <div className="w-1/2">
-          <label className="block text-gray-700 font-medium mb-2">
-            Offer Price
+        <div>
+          <label className="block text-gray-600 font-medium mb-2">
+            Offer Price <span className="text-red-500">*</span>
           </label>
           <input
             value={productDetails.new_price}
+            onChange={changeHandler}
             type="number"
             name="new_price"
-            placeholder="Offer price"
-            onChange={changeHandler}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 shadow-sm"
+            placeholder="Enter offer price"
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 transition shadow-sm"
           />
         </div>
       </div>
 
-      <div className="mb-5">
-        <label className="block text-gray-700 font-medium mb-2">Category</label>
+      {/* Category Dropdown */}
+      <div className="mb-6">
+        <label className="block text-gray-600 font-medium mb-2">Category</label>
         <select
           value={productDetails.category}
           onChange={changeHandler}
           name="category"
-          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 shadow-sm"
+          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 transition shadow-sm"
         >
           <option value="women">Women</option>
           <option value="men">Men</option>
@@ -117,11 +152,12 @@ const AddProduct = () => {
         </select>
       </div>
 
+      {/* Image Upload */}
       <div className="mb-6">
-        <label className="block text-gray-700 font-medium mb-2">
-          Product Image
+        <label className="block text-gray-600 font-medium mb-2">
+          Product Image <span className="text-red-500">*</span>
         </label>
-        <div className="flex items-center">
+        <div className="flex items-center gap-4">
           <label htmlFor="file-input" className="cursor-pointer">
             <img
               src={
@@ -129,31 +165,37 @@ const AddProduct = () => {
                   ? URL.createObjectURL(image)
                   : "https://img.icons8.com/?size=64&id=42879&format=png"
               }
-              className="h-36 w-36 rounded-lg object-cover border border-gray-300 shadow-sm"
               alt="Product"
+              className="h-36 w-36 rounded-lg border border-gray-300 object-cover shadow-sm"
             />
           </label>
           <input
-            onChange={imageHandler}
             type="file"
-            name="image"
             id="file-input"
+            name="image"
+            onChange={imageHandler}
             className="hidden"
           />
           <label
             htmlFor="file-input"
-            className="ml-4 bg-blue-500 text-white px-5 py-2 rounded-lg cursor-pointer hover:bg-blue-600 transition-colors shadow-sm"
+            className="bg-blue-500 text-white px-5 py-2 rounded-lg cursor-pointer hover:bg-blue-600 transition-colors shadow-sm"
           >
             Upload Image
           </label>
         </div>
       </div>
 
+      {/* Submit Button */}
       <button
         onClick={add_Product}
-        className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-all font-medium shadow-lg"
+        disabled={loading}
+        className={`w-full py-3 rounded-lg font-semibold shadow-md transition-all ${
+          loading
+            ? "bg-gray-400 cursor-not-allowed"
+            : "bg-blue-600 text-white hover:bg-blue-700"
+        }`}
       >
-        Add Product
+        {loading ? "Adding Product..." : "Add Product"}
       </button>
     </div>
   );

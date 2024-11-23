@@ -4,39 +4,41 @@ const Sidebar = () => {
   const location = useLocation();
 
   const linkStyles = (path) =>
-    `flex items-center gap-4 px-4 py-3 rounded-md transition-all duration-200 cursor-pointer ${
+    `flex items-center gap-4 px-6 py-3 rounded-lg transition-all duration-300 cursor-pointer ${
       location.pathname === path
-        ? "bg-blue-600 text-white"
-        : "bg-gray-300 text-gray-900"
-    } hover:bg-blue-500 hover:text-white`;
+        ? "bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white shadow-lg"
+        : "bg-gray-50 text-gray-800"
+    } hover:bg-gradient-to-r hover:from-indigo-400 hover:to-pink-400 hover:text-white hover:shadow-md`;
 
   return (
-    <div className="w-64 h-[300px] bg-gray-400 text-gray-200 flex flex-col pt-6 pb-6 shadow-md overflow-y-auto">
+    <div className="w-64 h-full bg-gradient-to-b from-gray-900 to-gray-800 text-gray-200 flex flex-col py-8 px-4 shadow-xl">
       {/* Sidebar Title */}
-      <h2 className="text-lg font-bold text-gray-100 mb-4 px-6">Navigation</h2>
+      <h2 className="text-2xl font-extrabold text-white mb-6 tracking-wide">
+        Rimberio
+      </h2>
 
       {/* Add Product Link */}
-      <Link to="/addproduct" className={linkStyles("/addproduct")}>
-        <div className="bg-gray-100 p-2 rounded-full">
+      <Link to="/addproduct" className={`${linkStyles("/addproduct")} mb-4`}>
+        <div className="bg-indigo-500 text-white p-3 rounded-full shadow-md">
           <img
             src="https://img.icons8.com/?size=60&id=rXfexTqQIs7R&format=png"
             alt="Add Product Icon"
             className="w-6 h-6"
           />
         </div>
-        <span>Add Product</span>
+        <span className="font-semibold">Add Product</span>
       </Link>
 
       {/* Product List Link */}
       <Link to="/listproduct" className={linkStyles("/listproduct")}>
-        <div className="bg-gray-100 p-2 rounded-full">
+        <div className="bg-green-500 text-white p-3 rounded-full shadow-md">
           <img
             src="https://img.icons8.com/?size=48&id=eyfXBlvDyk9g&format=png"
             alt="Product List Icon"
             className="w-6 h-6"
           />
         </div>
-        <span>Product List</span>
+        <span className="font-semibold">Product List</span>
       </Link>
     </div>
   );
