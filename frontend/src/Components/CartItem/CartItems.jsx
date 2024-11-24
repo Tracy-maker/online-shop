@@ -2,98 +2,141 @@ import { useContext } from "react";
 import { ShopContext } from "../../Context/ShopContext";
 
 const CartItems = () => {
-  const { getTotalCartAmount, all_product, cartItems, removeFromCart } =
-    useContext(ShopContext);
+  const {
+    getTotalCartAmount,
+    all_product,
+    cartItems,
+    removeFromCart,
+    updateCartQuantity,
+  } = useContext(ShopContext);
 
-  console.log(getTotalCartAmount());
+  const totalAmount = getTotalCartAmount();
 
   return (
-    <div className="mx-24 my-24 lg:mx-12 md:mx-8 sm:mx-4">
-      {/* Cart header */}
-      <div className="grid grid-cols-[0.5fr_2fr_1fr_1fr_1fr_1fr] items-center gap-20 py-5 text-gray-700 text-lg font-semibold md:grid-cols-[0.5fr_3fr_0.5fr_0.5fr_0.5fr_0.5fr] md:gap-8 md:py-4 md:text-base sm:hidden">
-        <p>Products</p>
-        <p>Title</p>
-        <p>Price</p>
-        <p>Quality</p>
-        <p>Total</p>
-        <p>Remove</p>
-      </div>
-      <hr className="h-[3px] bg-gray-200 border-0" />
+    <div className="max-w-7xl mx-auto px-6 py-12">
+      <h1 className="text-2xl font-semibold text-gray-800 mb-6">Your Cart</h1>
 
-      {/* Cart Items */}
-      {all_product.map((e) => {
-        if (cartItems[e.id] > 0) {
-          return (
-            <div key={e.id}>
-              <div className="grid grid-cols-[0.5fr_2fr_1fr_1fr_1fr_1fr] items-center gap-20 py-5 text-gray-600 text-base font-medium md:grid-cols-[0.5fr_3fr_0.5fr_0.5fr_0.5fr_0.5fr] md:gap-8 md:py-4">
-                <img
-                  src={e.image}
-                  alt="product-img"
-                  className="h-16 md:h-12"
-                />
-                <p>{e.name}</p>
-                <p>${e.new_price}</p>
-                <button className="w-16 h-12 border-2 border-gray-300 bg-white">
-                  {cartItems[e.id]}
-                </button>
-                <p>${e.new_price * cartItems[e.id]}</p>
-                <img
-                  src="https://img.icons8.com/?size=60&id=xiQbirZb0aZs&format=png"
-                  alt="remove"
-                  className="w-6 mx-4 cursor-pointer"
-                  onClick={() => {
-                    removeFromCart(e.id);
-                  }}
-                />
-              </div>
-              <hr className="h-[3px] bg-gray-200 border-0" />
-            </div>
-          );
-        }
-        return null;
-      })}
-
-      {/* Cart total and promo section */}
-      <div className="flex flex-col lg:flex-row lg:justify-between mt-24">
-        {/* Cart total */}
-        <div className="flex flex-col gap-8 lg:mr-48">
-          <h1 className="text-2xl font-bold">Cart Total</h1>
-          <div>
-            <div className="flex justify-between py-4">
-              <p>Subtotal</p>
-              <p>${getTotalCartAmount()}</p>
-            </div>
-            <hr className="h-[3px] bg-gray-200 border-0" />
-            <div className="flex justify-between py-4">
-              <p>Shipping Fee</p>
-              <p>Free</p>
-            </div>
-            <hr className="h-[3px] bg-gray-200 border-0" />
-            <div className="flex justify-between py-4">
-              <p>Total</p>
-              <p>${getTotalCartAmount()}</p>
-            </div>
-          </div>
-          <button className="w-64 h-14 bg-red-500 text-white text-lg font-semibold">
-            PROCEED TO CHECKOUT
+      {/* Empty Cart State */}
+      {totalAmount === 0 ? (
+        <div className="text-center py-20">
+          <p className="text-lg text-gray-600 mb-6">Your cart is currently empty.</p>
+          <button className="px-6 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition">
+            Continue Shopping
           </button>
         </div>
-
-        {/* Promo Code */}
-        <div className="flex flex-col lg:w-96 mt-12 lg:mt-0">
-          <p className="text-lg font-medium">If you have a promo code, enter it here:</p>
-          <div className="flex bg-gray-200 mt-4 h-14 px-4">
-            <input
-              type="text"
-              placeholder="Promo code"
-              className="flex-grow bg-transparent outline-none text-lg"
-            />
-            <button className="w-32 bg-black text-white font-medium">
-              Submit
-            </button>
+      ) : (
+        <>
+          {/* Cart Header */}
+          <div className="hidden lg:grid grid-cols-[0.5fr_2fr_1fr_1fr_1fr_1fr] items-center gap-10 py-5 text-gray-600 text-sm font-semibold border-b border-gray-300">
+            <p>Products</p>
+            <p>Title</p>
+            <p>Price</p>
+            <p>Quantity</p>
+            <p>Total</p>
+            <p>Remove</p>
           </div>
-        </div>
-      </div>
+
+          {/* Cart Items */}
+          {all_product.map((item) => {
+            if (cartItems[item.id] > 0) {
+              return (
+                <div key={item.id} className="py-5 border-b border-gray-300">
+                  <div className="grid grid-cols-1 lg:grid-cols-[0.5fr_2fr_1fr_1fr_1fr_1fr] items-center gap-8">
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      className="h-16 w-16 object-cover rounded-md"
+                    />
+                    <p className="text-sm text-gray-800 font-medium">{item.name}</p>
+                    <p className="text-sm text-gray-600 font-medium">
+                      ${item.new_price.toFixed(2)}
+                    </p>
+                    <div className="flex items-center">
+                      <button
+                        onClick={() => updateCartQuantity(item.id, cartItems[item.id] - 1)}
+                        className="px-3 py-1 bg-gray-100 text-gray-800 rounded-l-md hover:bg-gray-200 transition"
+                      >
+                        -
+                      </button>
+                      <span className="px-4 py-2 bg-gray-50 text-gray-800 border">
+                        {cartItems[item.id]}
+                      </span>
+                      <button
+                        onClick={() => updateCartQuantity(item.id, cartItems[item.id] + 1)}
+                        className="px-3 py-1 bg-gray-100 text-gray-800 rounded-r-md hover:bg-gray-200 transition"
+                      >
+                        +
+                      </button>
+                    </div>
+                    <p className="text-sm text-gray-800 font-semibold">
+                      ${(item.new_price * cartItems[item.id]).toFixed(2)}
+                    </p>
+                    <button
+                      onClick={() => removeFromCart(item.id)}
+                      className="text-red-500 hover:text-red-700 transition"
+                      aria-label="Remove item"
+                    >
+                      <img
+                        src="https://img.icons8.com/?size=60&id=xiQbirZb0aZs&format=png"
+                        alt="remove-icon"
+                        className="w-5"
+                      />
+                    </button>
+                  </div>
+                </div>
+              );
+            }
+            return null;
+          })}
+
+          {/* Cart Total and Promo Code */}
+          <div className="flex flex-col lg:flex-row justify-between items-start gap-10 mt-12">
+            {/* Cart Total */}
+            <div className="flex flex-col w-full lg:w-1/2 bg-gray-100 p-6 rounded-lg shadow-md">
+              <h2 className="text-lg font-semibold text-gray-800 mb-4">Cart Total</h2>
+              <div className="space-y-3">
+                <div className="flex justify-between text-gray-600 text-sm">
+                  <p>Subtotal</p>
+                  <p>${totalAmount.toFixed(2)}</p>
+                </div>
+                <div className="flex justify-between text-gray-600 text-sm">
+                  <p>Shipping Fee</p>
+                  <p className="text-green-500 font-medium">Free</p>
+                </div>
+                <hr className="border-gray-300" />
+                <div className="flex justify-between text-gray-800 text-lg font-semibold">
+                  <p>Total</p>
+                  <p>${totalAmount.toFixed(2)}</p>
+                </div>
+              </div>
+              <button className="mt-6 w-full py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition">
+                Proceed to Checkout
+              </button>
+            </div>
+
+            {/* Promo Code */}
+            <div className="w-full lg:w-1/3 bg-gray-100 p-6 rounded-lg shadow-md">
+              <h2 className="text-lg font-semibold text-gray-800 mb-4">Promo Code</h2>
+              <p className="text-sm text-gray-600 mb-3">
+                Enter your promo code below to get a discount.
+              </p>
+              <div className="flex items-center border rounded-lg overflow-hidden">
+                <input
+                  type="text"
+                  placeholder="Promo code"
+                  className="flex-grow px-4 py-2 text-sm text-gray-800 focus:outline-none"
+                />
+                <button className="px-4 py-2 bg-blue-600 text-white font-medium hover:bg-blue-700 transition">
+                  Apply
+                </button>
+              </div>
+              {/* Success or Failure Message */}
+              <p className="text-sm text-green-500 mt-2 hidden">Promo code applied!</p>
+              <p className="text-sm text-red-500 mt-2 hidden">Invalid promo code.</p>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 };

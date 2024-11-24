@@ -68,3 +68,6 @@ Dockerfile
 # Ignore local cache for backend services like Redis, MongoDB, etc.
 *.rdb
 dump.rdb
+
+
+package-lock.json

@@ -7,10 +7,12 @@ import Cart from "./Pages/Cart";
 import LoginSignup from "./Pages/LoginSignup";
 import Footer from "./Components/Footer/Footer";
 import menBanner from "./Components/Assets/banner_mens.png";
-import womenBanner from "./Components/Assets/banner_women.jpg";
+import womenBanner from "./Components/Assets/banner_womens.png";
 import kidBanner from "./Components/Assets/banner_kids.png";
+import accessoriesBanner from "./Components/Assets/banner_accessories.png";
 import About from "./Pages/About";
 import Contact from "./Pages/Contact";
+import CheckoutPage from "./Pages/Checkout";
 
 function App() {
   return (
@@ -31,6 +33,12 @@ function App() {
             path="/kids"
             element={<ShopCategory banner={kidBanner} category="kid" />}
           />
+          <Route
+            path="/accessories"
+            element={
+              <ShopCategory banner={accessoriesBanner} category="accessories" />
+            }
+          />
           <Route path="/product" element={<Product />}>
             <Route path=":productId" element={<Product />} />
           </Route>
@@ -38,6 +46,7 @@ function App() {
           <Route path="/login" element={<LoginSignup />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/checkout" element={<CheckoutPage />} />
           <Route />
         </Routes>
         <Footer />

@@ -1,15 +1,19 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const [showDropdown, setShowDropdown] = useState(false);
+  const navigate = useNavigate(); // Initialize navigate hook
 
   const handleProfileClick = () => {
     setShowDropdown((prev) => !prev);
   };
 
   const handleLogout = () => {
-    // Implement your logout functionality here
-    alert("Logged out");
+    // Clear any user session or authentication tokens (if applicable)
+    console.log("Logged out");
+    // Redirect to login page
+    navigate("/login");
   };
 
   return (
@@ -32,11 +36,17 @@ const Navbar = () => {
           <img
             src="https://img.icons8.com/?size=80&id=Cssf43cjx2fu&format=png"
             alt="profile"
+            aria-label="Profile"
             onClick={handleProfileClick}
             className="w-12 h-12 rounded-full border-2 border-white hover:border-yellow-400 transition duration-300 cursor-pointer"
+            role="button"
           />
           {showDropdown && (
-            <div className="absolute right-0 mt-2 w-40 bg-white rounded-lg shadow-lg py-2 text-gray-700">
+            <div
+              className="absolute right-0 mt-2 w-40 bg-white rounded-lg shadow-lg py-2 text-gray-700 animate-fade-in"
+              role="menu"
+              aria-label="Dropdown menu"
+            >
               <button
                 onClick={handleLogout}
                 className="block w-full text-left px-4 py-2 hover:bg-gray-100 transition"
