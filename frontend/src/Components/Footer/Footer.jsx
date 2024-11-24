@@ -2,6 +2,7 @@ import { useState } from "react";
 import PrivacyPolicy from "../PrivacyPolicy/PrivacyPolicy";
 import TermsOfService from "../TermsOfService/TermsOfService";
 import ReturnPolicy from "../ReturnPolicy/ReturnPolicy";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   const [activeModal, setActiveModal] = useState(null);
@@ -23,18 +24,25 @@ const Footer = () => {
       </div>
 
       {/* Links Section */}
-      <ul className="flex flex-wrap justify-center gap-6 text-sm md:text-base">
-        <li className="cursor-pointer hover:text-gray-400 transition">Home</li>
-        <li className="cursor-pointer hover:text-gray-400 transition">Men</li>
-        <li className="cursor-pointer hover:text-gray-400 transition">Women</li>
-        <li className="cursor-pointer hover:text-gray-400 transition">Kids</li>
-        <li className="cursor-pointer hover:text-gray-400 transition">
-          Accessories
-        </li>
-        <li className="cursor-pointer hover:text-gray-400 transition">About</li>
-        <li className="cursor-pointer hover:text-gray-400 transition">
-          Contact
-        </li>
+      <ul className="flex flex-wrap justify-center gap-8 text-sm md:text-base">
+        {[
+          { label: "Home", path: "/home" },
+          { label: "Men", path: "/men" },
+          { label: "Women", path: "/women" },
+          { label: "Kids", path: "/kids" },
+          { label: "Accessories", path: "/accessories" },
+          { label: "About", path: "/about" },
+          { label: "Contact", path: "/contact" },
+        ].map(({ label, path }, index) => (
+          <li key={index} className="relative">
+            <Link
+              to={path}
+              className="cursor-pointer hover:text-gray-500 font-medium transition duration-300 after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-gray-500 after:transition-all after:duration-300 hover:after:w-full"
+            >
+              {label}
+            </Link>
+          </li>
+        ))}
       </ul>
 
       {/* Social Icons Section */}

@@ -57,7 +57,7 @@ const Navbar = () => {
             onChange={(e) => setSearchQuery(e.target.value)}
             className="px-4 py-2 w-80 text-sm bg-transparent focus:outline-none text-gray-700"
           />
-          <button className="bg-gray-700 text-white px-4 py-2 rounded-r-lg hover:bg-gray-800 transition">
+          <button className="bg-gray-300 text-white px-4 py-2 rounded-r-lg hover:bg-gray-500 transition">
             <img
               src="https://img.icons8.com/?size=32&id=7645&format=png"
               alt="search-icon"
