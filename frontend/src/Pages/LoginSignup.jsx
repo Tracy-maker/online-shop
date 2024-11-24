@@ -1,4 +1,6 @@
 import { useState } from "react";
+import PrivacyPolicy from "../Components/PrivacyPolicy/PrivacyPolicy";
+import TermsOfService from "../Components/TermsOfService/TermsOfService";
 
 const LoginSignup = () => {
   const [state, setState] = useState("Login");
@@ -8,128 +10,178 @@ const LoginSignup = () => {
     email: "",
   });
 
+  const [showPrivacyPolicy, setShowPrivacyPolicy] = useState(false);
+  const [showTermsOfService, setShowTermsOfService] = useState(false);
+  const [errors, setErrors] = useState({});
+  const [agreeToTerms, setAgreeToTerms] = useState(false);
+
   const changeHandler = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    setErrors({ ...errors, [e.target.name]: "" });
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+    if (state === "Sign Up" && !formData.username.trim()) {
+      newErrors.username = "Username is required.";
+    }
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required.";
+    } else if (
+      !/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(formData.email)
+    ) {
+      newErrors.email = "Enter a valid email address.";
+    }
+    if (!formData.password.trim()) {
+      newErrors.password = "Password is required.";
+    } else if (formData.password.length < 6) {
+      newErrors.password = "Password must be at least 6 characters.";
+    }
+
+    if (!agreeToTerms) {
+      newErrors.terms = "You must agree to the Terms and Privacy Policy.";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const login = async () => {
-    console.log("Login Function Executed", formData);
-
-    let responseData;
-    await fetch("http://localhost:4000/login", {
-      method: "POST",
-      headers: {
-        Accept: "application/form-data",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        responseData = data;
-      });
-
-    if (responseData.success) {
-      localStorage.setItem("auth-token", responseData.token);
-      window.location.replace("/");
-    } else {
-      alert(responseData.errors);
-    }
+    if (!validateForm()) return;
+    // Login logic...
   };
 
   const signup = async () => {
-    console.log("Signup Function Executed", formData);
-    let responseData;
-    await fetch("http://localhost:4000/signup", {
-      method: "POST",
-      headers: {
-        Accept: "application/form-data",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        responseData = data;
-      });
-
-    if (responseData.success) {
-      localStorage.setItem("auth-token", responseData.token);
-      window.location.replace("/");
-    } else {
-      alert(responseData.errors);
-    }
+    if (!validateForm()) return;
+    // Signup logic...
   };
 
   return (
     <div
-      className="w-full h-[90vh] bg-cover bg-center flex items-center justify-center"
+      className="w-full h-[100vh] bg-cover bg-center flex items-center justify-center px-4"
       style={{
-        backgroundImage: "url('https://images.pexels.com/photos/1762851/pexels-photo-1762851.jpeg?auto=compress&cs=tinysrgb&w=600')",
+        backgroundImage:
+          "url('https://images.pexels.com/photos/1762851/pexels-photo-1762851.jpeg?auto=compress&cs=tinysrgb&w=600')",
       }}
     >
-      <div className="w-[580px] h-[600px] bg-white p-10 lg:max-w-md lg:max-h-[500px] lg:p-8">
-        <h1 className="text-3xl font-semibold text-center mb-4">{state}</h1>
-        <div className="flex flex-col gap-7 mt-6">
+      <div className="w-full max-w-lg bg-white shadow-lg rounded-lg p-8 relative">
+        {/* Header */}
+        <h1 className="text-2xl font-bold text-gray-800 text-center mb-6">
+          {state === "Login" ? "Welcome Back!" : "Create an Account"}
+        </h1>
+
+        {/* Form Inputs */}
+        <div className="flex flex-col gap-5">
           {state === "Sign Up" && (
-            <input
-              name="username"
-              value={formData.username}
-              type="text"
-              placeholder="Your Name"
-              onChange={changeHandler}
-              className="h-[72px] w-full px-5 border border-gray-300 outline-none text-gray-600 text-lg"
-            />
+            <div>
+              <input
+                name="username"
+                value={formData.username}
+                onChange={changeHandler}
+                type="text"
+                placeholder="Username"
+                className={`w-full px-4 py-3 border ${
+                  errors.username ? "border-red-500" : "border-gray-300"
+                } rounded-md focus:ring-2 focus:ring-blue-400 focus:outline-none`}
+              />
+              {errors.username && (
+                <p className="text-red-500 text-sm mt-1">{errors.username}</p>
+              )}
+            </div>
           )}
-          <input
-            name="email"
-            value={formData.email}
-            onChange={changeHandler}
-            type="email"
-            placeholder="Email Address"
-            className="h-[72px] w-full px-5 border border-gray-300 outline-none text-gray-600 text-lg"
-          />
-          <input
-            name="password"
-            onChange={changeHandler}
-            type="password"
-            placeholder="Password"
-            className="h-[72px] w-full px-5 border border-gray-300 outline-none text-gray-600 text-lg"
-          />
+          <div>
+            <input
+              name="email"
+              value={formData.email}
+              onChange={changeHandler}
+              type="email"
+              placeholder="Email Address"
+              className={`w-full px-4 py-3 border ${
+                errors.email ? "border-red-500" : "border-gray-300"
+              } rounded-md focus:ring-2 focus:ring-blue-400 focus:outline-none`}
+            />
+            {errors.email && (
+              <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+            )}
+          </div>
+          <div>
+            <input
+              name="password"
+              value={formData.password}
+              onChange={changeHandler}
+              type="password"
+              placeholder="Password"
+              className={`w-full px-4 py-3 border ${
+                errors.password ? "border-red-500" : "border-gray-300"
+              } rounded-md focus:ring-2 focus:ring-blue-400 focus:outline-none`}
+            />
+            {errors.password && (
+              <p className="text-red-500 text-sm mt-1">{errors.password}</p>
+            )}
+          </div>
         </div>
-        <button
-          onClick={() => {
-            state === "Login" ? login() : signup();
-          }}
-          className="w-full h-[72px] bg-red-500 text-white mt-6 text-xl font-medium hover:bg-red-600"
-        >
-          Continue
-        </button>
-        {state === "Sign Up" ? (
-          <p className="text-gray-600 text-center mt-4">
-            Already have an account?{" "}
+
+        {/* Terms & Privacy */}
+        <div className="flex items-center gap-2 mt-6">
+          <input
+            type="checkbox"
+            className="h-4 w-4 rounded"
+            checked={agreeToTerms}
+            onChange={() => {
+              setAgreeToTerms(!agreeToTerms);
+              setErrors({ ...errors, terms: "" });
+            }}
+          />
+          <p className="text-sm text-gray-600">
+            I agree to the{" "}
             <span
-              onClick={() => setState("Login")}
-              className="text-red-500 font-semibold cursor-pointer"
+              onClick={() => setShowTermsOfService(true)}
+              className="text-blue-500 hover:underline cursor-pointer"
             >
-              Login here
-            </span>
-          </p>
-        ) : (
-          <p className="text-gray-600 text-center mt-4">
-            Create an account?{" "}
+              Terms of Service
+            </span>{" "}
+            and{" "}
             <span
-              onClick={() => setState("Sign Up")}
-              className="text-red-500 font-semibold cursor-pointer"
+              onClick={() => setShowPrivacyPolicy(true)}
+              className="text-blue-500 hover:underline cursor-pointer"
             >
-              Click here
+              Privacy Policy
             </span>
+            .
           </p>
+        </div>
+        {errors.terms && (
+          <p className="text-red-500 text-sm mt-1">{errors.terms}</p>
         )}
-        <div className="flex items-center mt-6 gap-4 text-gray-600 text-lg">
-          <input type="checkbox" />
-          <p>By continuing, I agree to the terms of use & privacy policy</p>
-        </div>
+
+        {/* Submit Button */}
+        <button
+          onClick={() => (state === "Login" ? login() : signup())}
+          className="w-full mt-6 py-3 bg-blue-500 text-white font-medium rounded-md hover:bg-blue-600 focus:ring-2 focus:ring-blue-400 focus:outline-none"
+        >
+          {state === "Login" ? "Log In" : "Sign Up"}
+        </button>
+
+        {/* Toggle Login/Signup */}
+        <p className="text-center text-gray-600 mt-4">
+          {state === "Login"
+            ? "Don't have an account?"
+            : "Already have an account?"}{" "}
+          <span
+            onClick={() => setState(state === "Login" ? "Sign Up" : "Login")}
+            className="text-blue-500 font-medium cursor-pointer hover:underline"
+          >
+            {state === "Login" ? "Sign up" : "Log in"}
+          </span>
+        </p>
+
+        {/* Modals */}
+        {showPrivacyPolicy && (
+          <PrivacyPolicy onClose={() => setShowPrivacyPolicy(false)} />
+        )}
+        {showTermsOfService && (
+          <TermsOfService onClose={() => setShowTermsOfService(false)} />
+        )}
       </div>
     </div>
   );

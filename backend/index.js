@@ -19,8 +19,7 @@ connectDB();
 connectCloudinary();
 
 // Routes
-app.use("/products", productRoutes);
-app.use("/users", userRoutes);
+app.use("/api/products", productRoutes);
 app.use("/api/user", userRoutes); 
 
 // Server Listener
