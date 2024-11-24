@@ -58,10 +58,10 @@ const LoginSignup = () => {
 
   return (
     <div
-      className="w-full h-[100vh] bg-cover bg-center flex items-center justify-center px-4"
+      className="w-full h-[100vh] bg-fit bg-center flex items-center justify-center px-4"
       style={{
         backgroundImage:
-          "url('https://images.pexels.com/photos/1762851/pexels-photo-1762851.jpeg?auto=compress&cs=tinysrgb&w=600')",
+          "url('https://images.unsplash.com/photo-1732053989556-95d6a5fe31aa?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHx0b3BpYy1mZWVkfDR8Ym84alFLVGFFMFl8fGVufDB8fHx8fA%3D%3D')",
       }}
     >
       <div className="w-full max-w-lg bg-white shadow-lg rounded-lg p-8 relative">
@@ -136,14 +136,14 @@ const LoginSignup = () => {
             I agree to the{" "}
             <span
               onClick={() => setShowTermsOfService(true)}
-              className="text-blue-500 hover:underline cursor-pointer"
+              className="text-orange-900 hover:underline cursor-pointer"
             >
               Terms of Service
             </span>{" "}
             and{" "}
             <span
               onClick={() => setShowPrivacyPolicy(true)}
-              className="text-blue-500 hover:underline cursor-pointer"
+              className="text-orange-900 hover:underline cursor-pointer"
             >
               Privacy Policy
             </span>

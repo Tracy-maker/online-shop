@@ -17,13 +17,13 @@ function App() {
       <BrowserRouter>
         <Navbar />
         <Routes>
-          <Route path="/" element={<Shop />} />
+          <Route path="/Home" element={<Shop />} />
           <Route
-            path="/mens"
+            path="/men"
             element={<ShopCategory banner={menBanner} category="men" />}
           />
           <Route
-            path="/womans"
+            path="/women"
             element={<ShopCategory banner={womenBanner} category="women" />}
           />
           <Route

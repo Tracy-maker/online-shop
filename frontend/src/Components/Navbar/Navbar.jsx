@@ -39,7 +39,7 @@ const Navbar = () => {
     <nav className="bg-white text-black shadow-lg sticky top-0 z-50">
       <div className="container mx-auto px-6 py-4 flex items-center justify-between">
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-3">
+        <Link to="/Home" className="flex items-center gap-3">
           <img
             src="https://i.ibb.co/BZbmw7d/Screenshot-2024-02-03-at-12-44-12-pm.png"
             alt="logo"
@@ -68,19 +68,23 @@ const Navbar = () => {
 
         {/* Desktop Links */}
         <ul className="hidden lg:flex items-center space-x-8 font-medium">
-          {["Shop", "Men", "Women", "Kids"].map((label, index) => (
-            <li key={index}>
-              <Link
-                to={`/${label.toLowerCase()}`}
-                className={`hover:text-gray-700 ${
-                  menu === label.toLowerCase() ? "text-black font-semibold" : ""
-                }`}
-                onClick={() => setMenu(label.toLowerCase())}
-              >
-                {label}
-              </Link>
-            </li>
-          ))}
+          {["Home", "Men", "Women", "Kids", "Accessories"].map(
+            (label, index) => (
+              <li key={index}>
+                <Link
+                  to={`/${label.toLowerCase()}`}
+                  className={`hover:text-gray-700 ${
+                    menu === label.toLowerCase()
+                      ? "text-black font-semibold"
+                      : ""
+                  }`}
+                  onClick={() => setMenu(label.toLowerCase())}
+                >
+                  {label}
+                </Link>
+              </li>
+            )
+          )}
         </ul>
 
         {/* Profile and Cart */}
