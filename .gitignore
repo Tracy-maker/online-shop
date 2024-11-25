@@ -31,3 +31,6 @@ lerna-debug.log*
 # Tailwind and PostCSS cache
 tailwind.config.js
 postcss.config.js
+
+
+package-lock.json

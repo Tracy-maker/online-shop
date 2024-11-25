@@ -4,41 +4,56 @@ const Sidebar = () => {
   const location = useLocation();
 
   const linkStyles = (path) =>
-    `flex items-center gap-4 px-6 py-3 rounded-lg transition-all duration-300 cursor-pointer ${
+    `flex items-center gap-4 px-4 py-3 rounded-lg transition-all duration-300 cursor-pointer ${
       location.pathname === path
-        ? "bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white shadow-lg"
-        : "bg-gray-50 text-gray-800"
-    } hover:bg-gradient-to-r hover:from-indigo-400 hover:to-pink-400 hover:text-white hover:shadow-md`;
+        ? "bg-gradient-to-r from-blue-500 to-teal-500 text-white shadow-md"
+        : "text-gray-700 hover:bg-gray-100"
+    }`;
 
   return (
-    <div className="w-64 h-full bg-gradient-to-b from-gray-900 to-gray-800 text-gray-200 flex flex-col py-8 px-4 shadow-xl">
+    <div className="w-64 h-full bg-white shadow-lg flex flex-col py-8 px-6">
       {/* Sidebar Title */}
-      <h2 className="text-2xl font-extrabold text-white mb-6 tracking-wide">
+      <h2 className="text-2xl font-bold text-gray-800 mb-8 tracking-wide">
         Rimberio
       </h2>
 
       {/* Add Product Link */}
       <Link to="/addproduct" className={`${linkStyles("/addproduct")} mb-4`}>
-        <div className="bg-indigo-500 text-white p-3 rounded-full shadow-md">
+        <div className="flex items-center justify-center w-10 h-10 bg-blue-500 text-white rounded-lg shadow-md">
           <img
-            src="https://img.icons8.com/?size=60&id=rXfexTqQIs7R&format=png"
+            src="https://img.icons8.com/ios-filled/50/ffffff/add-property.png"
             alt="Add Product Icon"
-            className="w-6 h-6"
+            className="w-5 h-5"
           />
         </div>
-        <span className="font-semibold">Add Product</span>
+        <span className="font-medium">Add Product</span>
       </Link>
 
       {/* Product List Link */}
-      <Link to="/listproduct" className={linkStyles("/listproduct")}>
-        <div className="bg-green-500 text-white p-3 rounded-full shadow-md">
+      <Link to="/listproduct" className={`${linkStyles("/listproduct")} mb-4`}>
+        <div className="flex items-center justify-center w-10 h-10 bg-green-500 text-white rounded-lg shadow-md">
           <img
-            src="https://img.icons8.com/?size=48&id=eyfXBlvDyk9g&format=png"
+            src="https://img.icons8.com/ios-filled/50/ffffff/view-file.png"
             alt="Product List Icon"
-            className="w-6 h-6"
+            className="w-5 h-5"
           />
         </div>
-        <span className="font-semibold">Product List</span>
+        <span className="font-medium">Product List</span>
+      </Link>
+
+      {/* Order Information Link */}
+      <Link
+        to="/orderinformation"
+        className={`${linkStyles("/orderinformation")}`}
+      >
+        <div className="flex items-center justify-center w-10 h-10 bg-red-500 text-white rounded-lg shadow-md">
+          <img
+            src="https://img.icons8.com/ios-filled/50/ffffff/order-history.png"
+            alt="Order Information Icon"
+            className="w-5 h-5"
+          />
+        </div>
+        <span className="font-medium">Order Information</span>
       </Link>
     </div>
   );
