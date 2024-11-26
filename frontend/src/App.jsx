@@ -6,13 +6,14 @@ import Product from "./Pages/Product";
 import Cart from "./Pages/Cart";
 import LoginSignup from "./Pages/LoginSignup";
 import Footer from "./Components/Footer/Footer";
-import menBanner from "./Components/Assets/banner_mens.png";
-import womenBanner from "./Components/Assets/banner_womens.png";
-import kidBanner from "./Components/Assets/banner_kids.png";
-import accessoriesBanner from "./Components/Assets/banner_accessories.png";
+import menBanner from "./Assets/banner_mens.png";
+import womenBanner from "./Assets/banner_womens.png";
+import kidBanner from "./Assets/banner_kids.png";
+import accessoriesBanner from "./Assets/banner_accessories.png";
 import About from "./Pages/About";
 import Contact from "./Pages/Contact";
 import CheckoutPage from "./Pages/Checkout";
+// import AIChatWindow from "./Components/AIChatWindow/AIChatWindow";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/Home" element={<Shop />} />
+
           <Route
             path="/men"
             element={<ShopCategory banner={menBanner} category="men" />}
@@ -49,6 +51,7 @@ function App() {
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route />
         </Routes>
+        {/* <AIChatWindow /> */}
         <Footer />
       </BrowserRouter>
     </div>

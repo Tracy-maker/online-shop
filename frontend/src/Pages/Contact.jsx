@@ -8,7 +8,6 @@ const Contact = () => {
           alt="Fashion Store"
           className="w-full h-64 object-cover opacity-80"
         />
-
         <div className="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center">
           <h1 className="text-5xl font-extrabold text-white">Contact Us</h1>
         </div>
@@ -23,7 +22,7 @@ const Contact = () => {
         </p>
       </section>
 
-      {/* Contact Form */}
+      {/* Contact Form and Details */}
       <section className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Form */}
         <div className="bg-white p-6 shadow-lg rounded-lg">
@@ -79,6 +78,24 @@ const Contact = () => {
               <strong>Address:</strong> 123 Fashion Ave, New York, NY
             </li>
           </ul>
+        </div>
+      </section>
+
+      {/* Google Maps Section */}
+      <section className="bg-gray-50 p-6 shadow-lg rounded-lg">
+        <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
+          Visit Our Store
+        </h2>
+        <div className="w-full h-64">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3021.840796032801!2d-74.0060150845923!3d40.71277527933061!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c25a3173a8bf51%3A0xe58b1f3aef8b6da5!2s123%20Fashion%20Ave%2C%20New%20York%2C%20NY!5e0!3m2!1sen!2sus!4v1690199089075!5m2!1sen!2sus"
+            width="100%"
+            height="100%"
+            allowFullScreen=""
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            className="rounded-lg border border-gray-300 shadow-md"
+          ></iframe>
         </div>
       </section>
 

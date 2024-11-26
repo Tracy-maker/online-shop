@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 function ForgotPassword() {
   return (
-    <div className="h-[calc(100vh-220px)] flex items-center justify-center bg-gradient-to-br from-purple-900 via-blue-900 to-black relative overflow-hidden">
+    <div className="h-[calc(100vh-190px)] flex items-center justify-center bg-gradient-to-br from-purple-900 via-blue-900 to-black relative overflow-hidden">
       {/* Dynamic Background Animation */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-0 left-0 w-80 h-80 bg-purple-500 opacity-30 rounded-full blur-3xl animate-pulse"></div>

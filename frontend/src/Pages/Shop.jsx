@@ -11,7 +11,18 @@ const Shop = () => {
       <section className="mb-16">
         <Hero />
       </section>
+      {/* New Collections Section */}
+      <section className="mb-16 px-4">
+        <h2 className="text-center text-gray-800 text-4xl font-bold tracking-wide mb-8">
+          Discover New Arrivals
+        </h2>
+        <NewCollections />
+      </section>
 
+      {/* Offers Section */}
+      <section className="mb-16 px-4">
+        <Offers />
+      </section>
       {/* Popular Section */}
       <section className="mb-16 px-4">
         <h2 className="text-center text-gray-800 text-4xl font-bold tracking-wide mb-8">
@@ -23,19 +34,6 @@ const Shop = () => {
           <Popular category="Kids" />
           <Popular category="Accessories" />
         </div>
-      </section>
-
-      {/* Offers Section */}
-      <section className="mb-16 px-4">
-        <Offers />
-      </section>
-
-      {/* New Collections Section */}
-      <section className="mb-16 px-4">
-        <h2 className="text-center text-gray-800 text-4xl font-bold tracking-wide mb-8">
-          Discover New Arrivals
-        </h2>
-        <NewCollections />
       </section>
 
       {/* Newsletter Section */}

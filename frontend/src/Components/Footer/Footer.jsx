@@ -10,21 +10,21 @@ const Footer = () => {
   const closeModal = () => setActiveModal(null);
 
   return (
-    <footer className="flex flex-col items-center gap-8 p-10 bg-gray-900 text-gray-300">
+    <footer className="flex flex-col items-center gap-8 p-10 bg-gray-800 text-white">
       {/* Logo Section */}
       <div className="flex items-center gap-4">
         <img
           src="https://img.icons8.com/?size=60&id=AGeG6Wx3Id3W&format=png"
           alt="logo"
-          className="w-14"
+          className="w-14 animate-bounce"
         />
-        <p className="text-2xl font-semibold text-white tracking-wide">
+        <p className="text-3xl font-extrabold tracking-wide">
           Rimberio ONLINE SOLUTION
         </p>
       </div>
 
       {/* Links Section */}
-      <ul className="flex flex-wrap justify-center gap-8 text-sm md:text-base">
+      <ul className="flex flex-wrap justify-center gap-8 text-base font-medium">
         {[
           { label: "Home", path: "/home" },
           { label: "Men", path: "/men" },
@@ -34,13 +34,14 @@ const Footer = () => {
           { label: "About", path: "/about" },
           { label: "Contact", path: "/contact" },
         ].map(({ label, path }, index) => (
-          <li key={index} className="relative">
+          <li key={index} className="relative group">
             <Link
               to={path}
-              className="cursor-pointer hover:text-gray-500 font-medium transition duration-300 after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-gray-500 after:transition-all after:duration-300 hover:after:w-full"
+              className="cursor-pointer hover:text-yellow-200 transition duration-300"
             >
               {label}
             </Link>
+            <span className="absolute bottom-0 left-1/2 w-0 h-[3px] bg-yellow-200 transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
           </li>
         ))}
       </ul>
@@ -51,7 +52,7 @@ const Footer = () => {
           href="https://www.instagram.com/"
           target="_blank"
           rel="noopener noreferrer"
-          className="p-3 bg-gray-800 rounded-full hover:bg-blue-600 transition"
+          className="p-3 bg-white rounded-full hover:scale-125 transition transform"
           aria-label="Instagram"
         >
           <img
@@ -64,7 +65,7 @@ const Footer = () => {
           href="https://www.facebook.com/"
           target="_blank"
           rel="noopener noreferrer"
-          className="p-3 bg-gray-800 rounded-full hover:bg-blue-600 transition"
+          className="p-3 bg-white rounded-full hover:scale-125 transition transform"
           aria-label="Facebook"
         >
           <img
@@ -77,7 +78,7 @@ const Footer = () => {
           href="https://www.tiktok.com/"
           target="_blank"
           rel="noopener noreferrer"
-          className="p-3 bg-gray-800 rounded-full hover:bg-blue-600 transition"
+          className="p-3 bg-white rounded-full hover:scale-125 transition transform"
           aria-label="TikTok"
         >
           <img
@@ -88,34 +89,61 @@ const Footer = () => {
         </a>
       </div>
 
-      {/* Divider and Links Section */}
+      {/* Divider and Disclaimer Section */}
       <div className="w-full flex flex-col items-center gap-4">
-        <hr className="w-3/4 border-gray-700" />
-        <p className="text-xs md:text-sm text-gray-400">
+        <hr className="w-3/4 border-white opacity-50" />
+        <p className="text-sm text-white">
           © 2024 Rimberio Online Solution - All Rights Reserved.
         </p>
-        <div className="flex gap-4 text-xs md:text-sm">
+        <div className="flex gap-4 text-sm">
           <button
             onClick={() => setActiveModal("PrivacyPolicy")}
-            className="hover:text-gray-400 transition underline-offset-4"
+            className="hover:text-yellow-200 transition"
           >
             Privacy Policy
           </button>
-          <span className="text-gray-500">|</span>
+          <span className="text-white">|</span>
           <button
             onClick={() => setActiveModal("TermsOfService")}
-            className="hover:text-gray-400 transition underline-offset-4"
+            className="hover:text-yellow-200 transition"
           >
             Terms of Service
           </button>
-          <span className="text-gray-500">|</span>
+          <span className="text-white">|</span>
           <button
             onClick={() => setActiveModal("ReturnPolicy")}
-            className="hover:text-gray-400 transition underline-offset-4"
+            className="hover:text-yellow-200 transition"
           >
             Return Policy
           </button>
         </div>
+      </div>
+
+      {/* Disclaimer */}
+      <div className="text-center text-xs max-w-2xl leading-relaxed">
+        <p>
+          Disclaimer: All images used on this website are either AI-generated or
+          free-to-use images. If you believe any content infringes on your
+          rights, please contact us via the{" "}
+          <Link to="/contact" className="underline hover:text-yellow-200">
+            Contact page
+          </Link>{" "}
+          with details. This website is for educational purposes only and not
+          for commercial use.
+        </p>
+        <p className="mt-2">
+          All products listed are virtual items and cannot be delivered. Thank
+          you for your support. Please like, share, and consider sending us your
+          love with flowers, coins, or other gestures of appreciation!
+        </p>
+      </div>
+
+      {/* Creator Credit */}
+      <div className="text-center text-sm max-w-2xl">
+        <p className="animate-pulse">
+          Created with 💖 by{" "}
+          <span className="font-bold text-yellow-200">Yix.z</span>
+        </p>
       </div>
 
       {/* Modals */}
