@@ -4,10 +4,11 @@ const Contact = () => {
       {/* Hero Section */}
       <section className="relative bg-gradient-to-r from-gray-50 to-gray-100 rounded-lg shadow-lg overflow-hidden">
         <img
-          src="https://images.unsplash.com/photo-1588097999668-339c38b390a4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1200"
-          alt="Contact Us"
+          src="https://images.unsplash.com/photo-1519608487953-e999c86e7455?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1200"
+          alt="Fashion Store"
           className="w-full h-64 object-cover opacity-80"
         />
+
         <div className="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center">
           <h1 className="text-5xl font-extrabold text-white">Contact Us</h1>
         </div>
@@ -15,9 +16,9 @@ const Contact = () => {
 
       {/* Intro Section */}
       <section className="text-center">
-        <p className="text-lg text-gray-700 max-w-3xl mx-auto">
-          We would love to hear from you! If you have any questions, concerns, 
-          or feedback, please feel free to get in touch. Fill out the form below 
+        <p className="text-base text-gray-700 max-w-5xl mx-auto">
+          We would love to hear from you! If you have any questions, concerns,
+          or feedback, please feel free to get in touch. Fill out the form below
           or use the contact details provided to reach us directly.
         </p>
       </section>
@@ -92,7 +93,7 @@ const Contact = () => {
               What is the delivery time?
             </h3>
             <p className="text-gray-600">
-              Standard delivery usually takes 3-5 business days. Expedited 
+              Standard delivery usually takes 3-5 business days. Expedited
               shipping options are also available at checkout.
             </p>
           </div>
@@ -101,7 +102,7 @@ const Contact = () => {
               How can I track my order?
             </h3>
             <p className="text-gray-600">
-              You can track your order using the tracking number sent to your 
+              You can track your order using the tracking number sent to your
               email after your purchase.
             </p>
           </div>
@@ -110,7 +111,7 @@ const Contact = () => {
               What is your return policy?
             </h3>
             <p className="text-gray-600">
-              We offer a 30-day return policy for unused items in their original 
+              We offer a 30-day return policy for unused items in their original
               packaging. Visit our Return Policy page for details.
             </p>
           </div>
@@ -119,7 +120,7 @@ const Contact = () => {
               Can I modify my order after placing it?
             </h3>
             <p className="text-gray-600">
-              Orders can be modified within 24 hours of placement. Contact our 
+              Orders can be modified within 24 hours of placement. Contact our
               support team for assistance.
             </p>
           </div>

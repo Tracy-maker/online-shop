@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import Navbar from "./Components/Navbar/Navbar";
 import Footer from "./Components/Footer/Footer";
-import Admin from "./Pages/Admin/Admin";
+import Home from "./Components/Home/Home";
 import Login from "./Pages/Login/Login";
 import ForgotPassword from "./Pages/ForgotPassword/ForgotPassword";
 import AddProduct from "./Components/AddProduct/AddProduct";
@@ -12,10 +12,10 @@ function App() {
   return (
     <div className="min-h-screen flex flex-col bg-gray-100">
       <Navbar />
-      <main className="flex-grow p-6">
+      <main className="flex-grow p-2">
         <Routes>
           {/* Admin Dashboard */}
-          <Route path="/" element={<Admin />} />
+          <Route path="/" element={<Home />} />
           
           {/* Authentication Pages */}
           <Route path="/login" element={<Login />} />

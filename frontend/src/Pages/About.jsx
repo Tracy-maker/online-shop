@@ -4,11 +4,11 @@ const About = () => {
       {/* Hero Section */}
       <section className="relative bg-gradient-to-r from-gray-50 to-gray-100 rounded-lg shadow-lg overflow-hidden mb-12">
         <img
-        src="https://images.unsplash.com/photo-1518837695005-2083093ee35b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1200"
-
+          src="https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1200"
           alt="About Us"
           className="w-full h-80 object-cover opacity-80"
         />
+
         <div className="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center">
           <h1 className="text-5xl font-extrabold text-white">About Us</h1>
         </div>
@@ -19,7 +19,7 @@ const About = () => {
         <h2 className="text-3xl font-semibold text-gray-800 mb-4">
           Welcome to Rimberio Online Solution
         </h2>
-        <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+        <p className="text-sm text-gray-600 max-w-7xl mx-auto">
           Your one-stop destination for fashion-forward clothing and
           accessories. We believe in empowering your style with quality,
           accessibility, and the latest trends.

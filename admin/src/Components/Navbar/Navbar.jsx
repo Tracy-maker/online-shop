@@ -16,7 +16,7 @@ const Navbar = () => {
   const handleLogin = () => {
     console.log("Logged in");
     setIsLoggedIn(true); 
-    navigate("/"); 
+    navigate("/login"); 
   };
 
   return (

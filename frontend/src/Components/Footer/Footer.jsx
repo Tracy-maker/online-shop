@@ -92,7 +92,7 @@ const Footer = () => {
       <div className="w-full flex flex-col items-center gap-4">
         <hr className="w-3/4 border-gray-700" />
         <p className="text-xs md:text-sm text-gray-400">
-          © 2023 Rimberio Online Solution - All Rights Reserved.
+          © 2024 Rimberio Online Solution - All Rights Reserved.
         </p>
         <div className="flex gap-4 text-xs md:text-sm">
           <button
