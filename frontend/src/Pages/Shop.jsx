@@ -3,6 +3,7 @@ import Popular from "../Components/Popular/Popular";
 import Offers from "../Components/Offers/Offers";
 import NewCollections from "../Components/NewCollections/NewCollections";
 import NewsLetter from "../Components/NewsLetter/NewsLetter";
+import Policy from "../Components/Policy/Policy";
 const Shop = () => {
   return (
     <div className="bg-gray-50">
@@ -38,8 +39,13 @@ const Shop = () => {
       </section>
 
       {/* Newsletter Section */}
-      <section className="mb-16 px-4">
+      <section className="mb-2 px-4">
         <NewsLetter />
+      </section>
+
+      {/* Policy Section */}
+      <section className="px-4">
+        <Policy />
       </section>
     </div>
   );

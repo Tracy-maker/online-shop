@@ -43,8 +43,8 @@ const Sidebar = () => {
 
       {/* Order Information Link */}
       <Link
-        to="/orderinformation"
-        className={`${linkStyles("/orderinformation")}`}
+        to="/ordermanagement"
+        className={`${linkStyles("/ordermanagement")}`}
       >
         <div className="flex items-center justify-center w-10 h-10 bg-red-500 text-white rounded-lg shadow-md">
           <img
@@ -53,7 +53,7 @@ const Sidebar = () => {
             className="w-5 h-5"
           />
         </div>
-        <span className="font-medium">Order Information</span>
+        <span className="font-medium">Order management</span>
       </Link>
     </div>
   );

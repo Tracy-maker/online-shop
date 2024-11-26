@@ -6,8 +6,8 @@ import Login from "./Pages/Login/Login";
 import ForgotPassword from "./Pages/ForgotPassword/ForgotPassword";
 import AddProduct from "./Components/AddProduct/AddProduct";
 import ListProduct from "./Components/ListProduct/ListProduct";
-import OrderInformation from "./Components/OrderInformation/OrderInformation";
 import Admin from "./Pages/Admin/Admin";
+import OrderManagement from "./Components/OrderManagement/OrderManagement";
 
 function App() {
   return (
@@ -17,7 +17,7 @@ function App() {
         <Routes>
           {/* Admin Dashboard */}
           <Route path="/" element={<Home />} />
-          
+
           {/* Authentication Pages */}
           <Route path="/login" element={<Login />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
@@ -26,7 +26,7 @@ function App() {
           <Route path="/admin" element={<Admin />} />
           <Route path="/addproduct" element={<AddProduct />} />
           <Route path="/listproduct" element={<ListProduct />} />
-          <Route path="/orderinformation" element={<OrderInformation />} />
+          <Route path="/ordermanagement" element={<OrderManagement />} />
         </Routes>
       </main>
       <Footer />
