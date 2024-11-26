@@ -7,6 +7,7 @@ import ForgotPassword from "./Pages/ForgotPassword/ForgotPassword";
 import AddProduct from "./Components/AddProduct/AddProduct";
 import ListProduct from "./Components/ListProduct/ListProduct";
 import OrderInformation from "./Components/OrderInformation/OrderInformation";
+import Admin from "./Pages/Admin/Admin";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="/forgot-password" element={<ForgotPassword />} />
 
           {/* Admin Features */}
+          <Route path="/admin" element={<Admin />} />
           <Route path="/addproduct" element={<AddProduct />} />
           <Route path="/listproduct" element={<ListProduct />} />
           <Route path="/orderinformation" element={<OrderInformation />} />

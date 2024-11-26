@@ -11,13 +11,20 @@ const Popular = () => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center gap-2 h-[90vh] md:h-[70vh] sm:h-[60vh] xs:h-[50vh]">
-      <h1 className="text-[#171717] text-5xl font-semibold md:text-4xl sm:text-3xl xs:text-2xl">
-        POPULAR IN WOMEN
-      </h1>
-      <hr className="w-52 h-1.5 rounded-lg bg-[#252525] md:w-40 md:h-1 sm:w-32 sm:h-[3px] xs:w-24" />
+    <div className="w-4/5 mx-auto flex flex-col items-center gap-8 mb-24">
+      {/* Header Section */}
+      <div className="text-center">
+        <h1 className="text-gray-800 text-4xl font-bold tracking-wide lg:text-3xl md:text-2xl sm:text-xl">
+          Popular in Women
+        </h1>
+        <p className="text-gray-600 text-lg font-light mt-2 lg:text-base md:text-sm sm:text-xs">
+          Explore our most-loved styles designed just for women.
+        </p>
+        <div className="mt-4 w-24 h-1 bg-gray-800 rounded-full mx-auto"></div>
+      </div>
 
-      <div className="mt-12 flex gap-8 md:gap-5 sm:gap-4 xs:grid xs:grid-cols-2 xs:gap-5">
+      {/* Products Section */}
+      <div className="grid grid-cols-4 gap-8 mt-12 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1">
         {popularProducts.map((item, i) => (
           <Item
             key={i}

@@ -1,26 +1,30 @@
-
 const NewsLetter = () => {
   return (
     <div
-      className="w-4/5 h-[40vh] flex flex-col items-center justify-center mx-auto p-0 lg:px-20 gap-5 mb-36 bg-cover bg-center"
+      className="w-4/5 h-[40vh] flex flex-col items-center justify-center mx-auto p-8 gap-6 mb-36 bg-cover bg-center rounded-lg shadow-lg"
       style={{
         backgroundImage:
-          "url('https://images.pexels.com/photos/1078981/pexels-photo-1078981.jpeg?auto=compress&cs=tinysrgb&w=600')",
+          "url('https://images.pexels.com/photos/414612/pexels-photo-414612.jpeg?auto=compress&cs=tinysrgb&w=1200')",
       }}
     >
-      <h1 className="text-white text-5xl font-semibold lg:text-3xl md:text-2xl sm:text-lg">
-        Get Exclusive Offers on your Email
+      {/* Heading */}
+      <h1 className="text-white text-4xl font-bold tracking-wide text-center lg:text-3xl md:text-2xl sm:text-xl">
+        Join Our Exclusive Club
       </h1>
-      <p className="text-white text-xl lg:text-lg md:text-sm sm:text-xs">
-        Subscribe to our newsletter and stay updated
+
+      {/* Subheading */}
+      <p className="text-white text-lg text-center font-light tracking-wide lg:text-base md:text-sm sm:text-xs">
+        Be the first to know about new arrivals, exclusive offers, and trends.
       </p>
-      <div className="flex items-center justify-between bg-white w-[730px] h-[70px] rounded-full border border-gray-300 lg:w-[600px] lg:h-[60px] md:w-[500px] md:h-[50px] sm:w-[400px] sm:h-[40px]">
+
+      {/* Email Input */}
+      <div className="flex items-center w-full max-w-2xl gap-4">
         <input
           type="email"
-          placeholder="Your Email id"
-          className="w-[500px] ml-6 border-none outline-none text-gray-600 text-base font-sans lg:w-[400px] md:w-[300px] sm:w-[200px] sm:text-sm"
+          placeholder="Enter your email address"
+          className="flex-grow py-3 px-6 bg-gray-100 rounded-full border border-gray-300 outline-none text-gray-700 placeholder-gray-500 focus:ring-2 focus:ring-gray-400 lg:py-2 lg:px-4 sm:text-sm"
         />
-        <button className="w-[210px] h-[70px] rounded-full bg-black text-white text-base cursor-pointer lg:w-[160px] lg:h-[60px] md:w-[120px] md:h-[50px] sm:w-[100px] sm:h-[40px]">
+        <button className="px-6 py-3 bg-black text-white rounded-full text-lg font-medium shadow-md hover:bg-gray-800 transition-all lg:px-5 lg:py-2 lg:text-base sm:text-sm">
           Subscribe
         </button>
       </div>
