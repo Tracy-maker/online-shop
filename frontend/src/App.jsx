@@ -13,7 +13,8 @@ import accessoriesBanner from "./Assets/banner_accessories.png";
 import About from "./Pages/About";
 import Contact from "./Pages/Contact";
 import CheckoutPage from "./Pages/Checkout";
-// import AIChatWindow from "./Components/AIChatWindow/AIChatWindow";
+import AIChatWindow from "./Components/AIChatWindow/AIChatWindow";
+import ResetPassword from "./Pages/ResetPassword";
 
 function App() {
   return (
@@ -46,12 +47,14 @@ function App() {
           </Route>
           <Route path="/cart" element={<Cart />} />
           <Route path="/login" element={<LoginSignup />} />
+          <Route path="/signup" element={<LoginSignup />} />
+          <Route path="/resetPassword" element={<ResetPassword />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route />
         </Routes>
-        {/* <AIChatWindow /> */}
+        <AIChatWindow />
         <Footer />
       </BrowserRouter>
     </div>

@@ -8,6 +8,7 @@ import AddProduct from "./Components/AddProduct/AddProduct";
 import ListProduct from "./Components/ListProduct/ListProduct";
 import Admin from "./Pages/Admin/Admin";
 import OrderManagement from "./Components/OrderManagement/OrderManagement";
+import CustomerFeedback from "./Components/CustomerFeedback/CustomerFeedback";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
           <Route path="/addproduct" element={<AddProduct />} />
           <Route path="/listproduct" element={<ListProduct />} />
           <Route path="/ordermanagement" element={<OrderManagement />} />
+          <Route path="/customerfeedback" element={<CustomerFeedback />} />
         </Routes>
       </main>
       <Footer />

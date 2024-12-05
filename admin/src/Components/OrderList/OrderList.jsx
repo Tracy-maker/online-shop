@@ -2,14 +2,14 @@ import PropTypes from "prop-types";
 
 const OrderList = ({ orders, onSelectOrder, onUpdateStatus }) => {
   return (
-    <div className="bg-gray-100 min-h-screen ">
-      <div className="space-y-6">
+    <div className="bg-gray-100 min-h-screen p-8">
+      <div className="space-y-8"> {/* Increased spacing between orders */}
         {orders.map((order) => (
           <div
             key={order.id}
-            className="bg-white rounded-xl shadow-md p-6 flex items-center justify-between hover:shadow-lg transform  transition duration-75"
+            className="bg-white rounded-xl shadow-md p-8 flex items-center justify-between hover:shadow-lg transform transition duration-150"
           >
-            <div className="flex items-center space-x-8">
+            <div className="flex items-center space-x-10"> {/* Increased spacing between details */}
               {/* Order ID */}
               <div>
                 <h2 className="text-lg font-semibold text-gray-700">
@@ -54,7 +54,7 @@ const OrderList = ({ orders, onSelectOrder, onUpdateStatus }) => {
             {/* 操作按钮 */}
             <button
               onClick={() => onSelectOrder(order)}
-              className="px-6 py-2 text-sm font-semibold bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-300"
+              className="px-8 py-3 text-sm font-semibold bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition duration-300" // Dark gray button
             >
               View Details
             </button>

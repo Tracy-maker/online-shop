@@ -87,13 +87,13 @@ const About = () => {
         <div className="flex justify-center space-x-4">
           <a
             href="#"
-            className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition"
+            className="bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-700 transition"
           >
             Follow on Instagram
           </a>
           <a
             href="#"
-            className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition"
+            className="bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-700 transition"
           >
             Like on Facebook
           </a>

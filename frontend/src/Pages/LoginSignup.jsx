@@ -1,6 +1,8 @@
 import { useState } from "react";
 import PrivacyPolicy from "../Components/PrivacyPolicy/PrivacyPolicy";
 import TermsOfService from "../Components/TermsOfService/TermsOfService";
+import ForgetPassword from "../Pages/ForgetPassword";
+import axios from "axios";
 
 const LoginSignup = () => {
   const [state, setState] = useState("Login");
@@ -12,6 +14,7 @@ const LoginSignup = () => {
 
   const [showPrivacyPolicy, setShowPrivacyPolicy] = useState(false);
   const [showTermsOfService, setShowTermsOfService] = useState(false);
+  const [showForgetPassword, setShowForgetPassword] = useState(false);
   const [errors, setErrors] = useState({});
   const [agreeToTerms, setAgreeToTerms] = useState(false);
 
@@ -38,7 +41,7 @@ const LoginSignup = () => {
       newErrors.password = "Password must be at least 6 characters.";
     }
 
-    if (!agreeToTerms) {
+    if (state === "Sign Up" && !agreeToTerms) {
       newErrors.terms = "You must agree to the Terms and Privacy Policy.";
     }
 
@@ -48,12 +51,50 @@ const LoginSignup = () => {
 
   const login = async () => {
     if (!validateForm()) return;
-    // Login logic...
+
+    try {
+      const { data } = await axios.post(
+        "/api/login",
+        { email: formData.email, password: formData.password },
+        { headers: { "Content-Type": "application/json" } }
+      );
+
+      localStorage.setItem("token", data.token);
+      console.log("Login successful", data);
+      alert("Login successful!");
+    } catch (error) {
+      console.error("Login failed:", error.response?.data || error.message);
+      setErrors({ ...errors, email: "Invalid email or password" });
+    }
   };
 
   const signup = async () => {
     if (!validateForm()) return;
-    // Signup logic...
+
+    try {
+      const { data } = await axios.post(
+        "/api/signup",
+        {
+          username: formData.username,
+          email: formData.email,
+          password: formData.password,
+        },
+        { headers: { "Content-Type": "application/json" } }
+      );
+
+      localStorage.setItem("token", data.token);
+      console.log("Signup successful", data);
+      alert("Signup successful!");
+
+      setState("Login");
+    } catch (error) {
+      console.error("Signup failed:", error.response?.data || error.message);
+
+      setErrors({
+        ...errors,
+        email: error.response?.data?.message || "Signup failed. Try again.",
+      });
+    }
   };
 
   return (
@@ -122,34 +163,36 @@ const LoginSignup = () => {
         </div>
 
         {/* Terms & Privacy */}
-        <div className="flex items-center gap-2 mt-6">
-          <input
-            type="checkbox"
-            className="h-4 w-4 rounded"
-            checked={agreeToTerms}
-            onChange={() => {
-              setAgreeToTerms(!agreeToTerms);
-              setErrors({ ...errors, terms: "" });
-            }}
-          />
-          <p className="text-sm text-gray-600">
-            I agree to the{" "}
-            <span
-              onClick={() => setShowTermsOfService(true)}
-              className="text-orange-900 hover:underline cursor-pointer"
-            >
-              Terms of Service
-            </span>{" "}
-            and{" "}
-            <span
-              onClick={() => setShowPrivacyPolicy(true)}
-              className="text-orange-900 hover:underline cursor-pointer"
-            >
-              Privacy Policy
-            </span>
-            .
-          </p>
-        </div>
+        {state === "Sign Up" && (
+          <div className="flex items-center gap-2 mt-6">
+            <input
+              type="checkbox"
+              className="h-4 w-4 rounded"
+              checked={agreeToTerms}
+              onChange={() => {
+                setAgreeToTerms(!agreeToTerms);
+                setErrors({ ...errors, terms: "" });
+              }}
+            />
+            <p className="text-sm text-gray-600">
+              I agree to the{" "}
+              <span
+                onClick={() => setShowTermsOfService(true)}
+                className="text-orange-900 hover:underline cursor-pointer"
+              >
+                Terms of Service
+              </span>{" "}
+              and{" "}
+              <span
+                onClick={() => setShowPrivacyPolicy(true)}
+                className="text-orange-900 hover:underline cursor-pointer"
+              >
+                Privacy Policy
+              </span>
+              .
+            </p>
+          </div>
+        )}
         {errors.terms && (
           <p className="text-red-500 text-sm mt-1">{errors.terms}</p>
         )}
@@ -157,7 +200,7 @@ const LoginSignup = () => {
         {/* Submit Button */}
         <button
           onClick={() => (state === "Login" ? login() : signup())}
-          className="w-full mt-6 py-3 bg-blue-500 text-white font-medium rounded-md hover:bg-blue-600 focus:ring-2 focus:ring-blue-400 focus:outline-none"
+          className="w-full mt-6 py-3 bg-black text-white font-medium rounded-md hover:bg-gray-700 focus:ring-2 focus:ring-gray-600 focus:outline-none"
         >
           {state === "Login" ? "Log In" : "Sign Up"}
         </button>
@@ -175,12 +218,25 @@ const LoginSignup = () => {
           </span>
         </p>
 
+        {/* Forget Password */}
+        {state === "Login" && (
+          <p
+            onClick={() => setShowForgetPassword(true)} // 打开忘记密码窗口
+            className="text-sm text-blue-500 mt-2 text-center cursor-pointer hover:underline"
+          >
+            Forgot Password?
+          </p>
+        )}
+
         {/* Modals */}
         {showPrivacyPolicy && (
           <PrivacyPolicy onClose={() => setShowPrivacyPolicy(false)} />
         )}
         {showTermsOfService && (
           <TermsOfService onClose={() => setShowTermsOfService(false)} />
+        )}
+        {showForgetPassword && (
+          <ForgetPassword onClose={() => setShowForgetPassword(false)} />
         )}
       </div>
     </div>

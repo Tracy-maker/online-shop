@@ -1,20 +1,10 @@
 import PropTypes from "prop-types";
 
-const OrderDetails = ({ order, onBack }) => {
+const OrderDetails = ({ order }) => {
   return (
     <div className="bg-white rounded-lg shadow-lg p-6 space-y-6">
-      {/* Back Button */}
-      <button
-        onClick={onBack}
-        className="text-sm text-blue-500 hover:underline"
-      >
-        &larr; Back to Orders
-      </button>
-
       {/* Order Header */}
-      <h2 className="text-xl font-bold text-gray-800">
-        Order Details
-      </h2>
+      <h2 className="text-xl font-bold text-gray-800">Order Details</h2>
       <p className="text-gray-600 text-sm">
         Order ID: <span className="text-blue-600 font-medium">{order.id}</span>
       </p>
@@ -22,12 +12,15 @@ const OrderDetails = ({ order, onBack }) => {
         Order Date: <span className="text-gray-800">{order.date}</span>
       </p>
       <p className="text-gray-600 text-sm">
-        Status: <span className="text-green-600 font-semibold">{order.status}</span>
+        Status:{" "}
+        <span className="text-green-600 font-semibold">{order.status}</span>
       </p>
 
       {/* Customer Details */}
       <div className="space-y-2">
-        <h3 className="text-lg font-semibold text-gray-700">Customer Information:</h3>
+        <h3 className="text-lg font-semibold text-gray-700">
+          Customer Information:
+        </h3>
         <p className="text-gray-600">
           <strong>Name:</strong> {order.customer.name}
         </p>
@@ -66,9 +59,7 @@ const OrderDetails = ({ order, onBack }) => {
             {order.products.map((product, index) => (
               <tr
                 key={index}
-                className={`${
-                  index % 2 === 0 ? "bg-white" : "bg-gray-50"
-                }`}
+                className={`${index % 2 === 0 ? "bg-white" : "bg-gray-50"}`}
               >
                 <td className="border border-gray-300 p-2 text-sm text-gray-800">
                   {product.name}

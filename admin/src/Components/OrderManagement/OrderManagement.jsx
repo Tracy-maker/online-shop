@@ -1,8 +1,10 @@
 import { useState } from "react";
 import OrderList from "../OrderList/OrderList";
 import OrderDetails from "../OrderDetails/OrderDetails";
+import { useNavigate } from "react-router-dom";
 
 const OrderManagement = () => {
+  const navigate = useNavigate();
   const [orders, setOrders] = useState([
     {
       id: "ORD001",
@@ -55,16 +57,35 @@ const OrderManagement = () => {
         Order Management
       </h1>
 
-      {!selectedOrder ? (
+      {/* Conditional Global Go Back Button */}
+      {!selectedOrder && (
+        <button
+          onClick={() => navigate(-1)}
+          className="mb-6 px-4 py-2 bg-gray-900 text-white font-semibold rounded-md shadow hover:bg-gray-700 transition"
+        >
+          Go Back
+        </button>
+      )}
+
+      {selectedOrder ? (
+        <div>
+          {/* Local Go Back Button */}
+          <div className="mb-4">
+            <button
+              onClick={() => setSelectedOrder(null)}
+              className="px-4 py-2 bg-gray-800 text-white font-medium text-sm rounded-full shadow hover:bg-gray-600 transition-all duration-300"
+            >
+              Go Back
+            </button>
+          </div>
+          {/* Order Details */}
+          <OrderDetails order={selectedOrder} />
+        </div>
+      ) : (
         <OrderList
           orders={orders}
           onSelectOrder={setSelectedOrder}
           onUpdateStatus={handleUpdateStatus}
-        />
-      ) : (
-        <OrderDetails
-          order={selectedOrder}
-          onBack={() => setSelectedOrder(null)}
         />
       )}
     </div>

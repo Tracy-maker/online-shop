@@ -5,6 +5,7 @@ const connectDB = require("./config/db");
 const productRoutes = require("./routes/productRoutes");
 const userRoutes = require("./routes/userRoutes");
 const connectCloudinary = require("./config/cloudinary");
+const adminRoutes = require("./routes/adminRoutes");
 
 const app = express();
 const port = process.env.PORT || 4000;
@@ -21,6 +22,7 @@ connectCloudinary();
 // Routes
 app.use("/api/products", productRoutes);
 app.use("/api/user", userRoutes); 
+app.use("/api/admin", adminRoutes);
 
 // Server Listener
 app.listen(port, () => {

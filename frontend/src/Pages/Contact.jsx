@@ -29,13 +29,20 @@ const Contact = () => {
           <h2 className="text-2xl font-bold text-gray-800 mb-6">
             Send Us a Message
           </h2>
-          <form className="space-y-4">
+          <form
+            className="space-y-4"
+            onSubmit={(e) => {
+              e.preventDefault();
+              alert("Thank you for your message!");
+            }}
+          >
             <div>
               <label className="block text-gray-700">Name</label>
               <input
                 type="text"
                 className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none"
                 placeholder="Your Name"
+                required
               />
             </div>
             <div>
@@ -44,16 +51,19 @@ const Contact = () => {
                 type="email"
                 className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none"
                 placeholder="Your Email"
+                required
               />
             </div>
             <div>
               <label className="block text-gray-700">Message</label>
               <textarea
-                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none"
+                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-gray-400 focus:outline-none"
                 placeholder="Your Message"
+                rows="4"
+                required
               ></textarea>
             </div>
-            <button className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">
+            <button className="w-full bg-gray-600 text-white py-2 rounded-lg hover:bg-gray-700 transition">
               Send Message
             </button>
           </form>
@@ -69,15 +79,35 @@ const Contact = () => {
           </p>
           <ul className="space-y-4 text-lg text-gray-600">
             <li>
-              <strong>Email:</strong> support@rimberio.com
+              <strong>Email:</strong>{" "}
+              <span className="text-blue-600">support@rimberio.com</span> <br />
+              <span className="text-sm text-gray-500">
+                (Our team will respond within 24 hours.)
+              </span>
             </li>
             <li>
-              <strong>Phone:</strong> +1-234-567-890
+              <strong>Phone (General Inquiries):</strong> +1-234-567-890
+            </li>
+            <li>
+              <strong>Phone (Returns & Exchanges):</strong> +1-234-567-891{" "}
+              <br />
+              <span className="text-sm text-gray-500">
+                (Available Monday to Friday, 9:00 AM - 6:00 PM)
+              </span>
             </li>
             <li>
               <strong>Address:</strong> 123 Fashion Ave, New York, NY
             </li>
           </ul>
+          <hr className="my-4" />
+          <p className="text-sm text-gray-500">
+            Note: Our customer service is available on weekdays only. For urgent
+            matters outside office hours, please send an email to{" "}
+            <span className="text-gray-600 font-semibold">
+              support@rimberio.com
+            </span>
+            .
+          </p>
         </div>
       </section>
 

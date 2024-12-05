@@ -2,38 +2,38 @@ const Policy = () => {
   const policies = [
     {
       id: 1,
-      icon: "https://img.icons8.com/material-outlined/30/exchange.png",
+      icon: "https://img.icons8.com/ios/50/4a90e2/swap.png",
       title: "Easy Exchange",
       description: "Hassle-free exchanges on all items.",
     },
     {
       id: 2,
-      icon: "https://img.icons8.com/material-outlined/30/return.png",
+      icon: "https://img.icons8.com/ios/50/4a90e2/return.png",
       title: "30-Day Returns",
       description: "Full refunds within 30 days.",
     },
     {
       id: 3,
-      icon: "https://img.icons8.com/material-outlined/30/help.png",
+      icon: "https://img.icons8.com/ios/50/4a90e2/customer-support.png",
       title: "24/7 Support",
       description: "Dedicated support anytime.",
     },
   ];
 
   return (
-    <div className="w-11/12 mx-auto py-4">
-      <div className="flex justify-center gap-60 text-center">
+    <div className="w-11/12 mx-auto py-8 bg-gray-50 shadow-md rounded-lg">
+      <div className="flex justify-around text-center">
         {policies.map((policy) => (
           <div
             key={policy.id}
-            className="flex flex-col items-center gap-2 text-gray-800"
+            className="flex flex-col items-center gap-3 text-gray-800"
           >
             <img
               src={policy.icon}
               alt={policy.title}
-              className="w-8 h-8 object-contain text-gray-700"
+              className="w-10 h-10 object-contain"
             />
-            <h3 className="text-gray-800 text-xs font-medium">
+            <h3 className="text-gray-800 text-sm font-semibold">
               {policy.title}
             </h3>
             <p className="text-gray-600 text-xs leading-tight font-light">

@@ -1,14 +1,21 @@
-import { useState, useContext } from "react";
-import { UserContext } from "../context/UserContext";
-import axios from "axios";
+import { useState, useEffect } from "react";
+import { AiOutlineMessage } from "react-icons/ai";
 
 const AIChatWindow = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [isWorkingHours, setIsWorkingHours] = useState(false);
+  const [waitingForReply, setWaitingForReply] = useState(false);
 
-  const { user } = useContext(UserContext);
+  useEffect(() => {
+    const now = new Date();
+    const start = new Date();
+    const end = new Date();
+    start.setHours(8, 0, 0);
+    end.setHours(17, 0, 0);
+    setIsWorkingHours(now >= start && now <= end);
+  }, []);
 
   const toggleWindow = () => setIsOpen(!isOpen);
 
@@ -18,66 +25,83 @@ const AIChatWindow = () => {
     const userMessage = { type: "user", text: input };
     setMessages((prev) => [...prev, userMessage]);
     setInput("");
-    setLoading(true);
+    setWaitingForReply(true);
 
-    // Call OpenAI API for AI response
-    try {
-      const aiResponse = await fetchChatGPTResponse(input);
+    if (isWorkingHours) {
+      // Send to admin system for real-time response
+      await sendToAdmin(userMessage);
+    } else {
+      // Use ChatGPT for AI response
+      const aiResponse = await generateAIResponse(input);
       setMessages((prev) => [...prev, { type: "ai", text: aiResponse }]);
+    }
+
+    setWaitingForReply(false);
+  };
+
+  const generateAIResponse = async (question) => {
+    try {
+      const response = await fetch(
+        "https://api.openai.com/v1/chat/completions",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer YOUR_OPENAI_API_KEY`, // Replace with your API key
+          },
+          body: JSON.stringify({
+            model: "gpt-3.5-turbo",
+            messages: [{ role: "user", content: question }],
+          }),
+        }
+      );
+
+      const data = await response.json();
+      return data.choices[0].message.content.trim();
     } catch (error) {
-      console.error("Error with OpenAI API:", error);
-      setMessages((prev) => [
-        ...prev,
-        { type: "ai", text: "Sorry, I'm having trouble understanding your request." },
-      ]);
-    } finally {
-      setLoading(false);
+      console.error("Error fetching AI response:", error);
+      return "Sorry, I couldn't process your question. Please try again later.";
     }
   };
 
-  const fetchChatGPTResponse = async (userInput) => {
-    const apiKey = "your_openai_api_key"; // Replace with your OpenAI API key
+  const sendToAdmin = async (message) => {
+    try {
+      const response = await fetch("/api/admin/messages", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          message: message.text,
+          timestamp: new Date().toISOString(),
+        }),
+      });
 
-    const response = await axios.post(
-      "https://api.openai.com/v1/chat/completions",
-      {
-        model: "gpt-4", // or "gpt-3.5-turbo"
-        messages: [
-          { role: "system", content: "You are a helpful assistant." },
-          { role: "user", content: userInput },
-        ],
-        max_tokens: 100,
-        temperature: 0.7,
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${apiKey}`,
-        },
+      if (!response.ok) {
+        throw new Error("Failed to send message to admin.");
       }
-    );
-
-    return response.data.choices[0].message.content;
+    } catch (error) {
+      console.error("Error sending message to admin:", error);
+    }
   };
 
   return (
     <div className="fixed bottom-5 right-5 z-50">
-      {/* Chat Button */}
+      {/* Toggle Button */}
       {!isOpen && (
         <button
           onClick={toggleWindow}
-          className="bg-blue-600 text-white px-4 py-2 rounded-full shadow-lg hover:bg-blue-700 transition"
+          className="bg-gray-800 text-gray-200 px-4 py-4 rounded-full shadow-lg hover:bg-gray-700 hover:text-white transition flex items-center justify-center"
         >
-          Chat with Us
+          <AiOutlineMessage size={24} />
         </button>
       )}
 
-      {/* Chat Window */}
       {isOpen && (
         <div className="w-80 bg-white shadow-lg rounded-lg p-4">
-          {/* Header */}
+          {/* Chat Header */}
           <div className="flex justify-between items-center border-b pb-2 mb-4">
-            <h2 className="text-lg font-semibold text-gray-800">AI Assistant</h2>
+            <h2 className="text-lg font-semibold text-gray-800">
+              Chat Support
+            </h2>
             <button
               onClick={toggleWindow}
               className="text-gray-500 hover:text-gray-800 transition"
@@ -86,7 +110,7 @@ const AIChatWindow = () => {
             </button>
           </div>
 
-          {/* Chat Messages */}
+          {/* Messages */}
           <div className="space-y-2 mb-4 h-60 overflow-y-auto">
             {messages.map((msg, index) => (
               <div
@@ -98,7 +122,7 @@ const AIChatWindow = () => {
                 <div
                   className={`p-2 rounded-lg max-w-[70%] ${
                     msg.type === "user"
-                      ? "bg-blue-500 text-white"
+                      ? "bg-gray-800 text-gray-200"
                       : "bg-gray-200 text-gray-800"
                   }`}
                 >
@@ -106,27 +130,29 @@ const AIChatWindow = () => {
                 </div>
               </div>
             ))}
-            {loading && (
-              <div className="flex justify-start">
-                <div className="p-2 rounded-lg max-w-[70%] bg-gray-200 text-gray-800">
-                  Thinking...
-                </div>
-              </div>
-            )}
           </div>
 
-          {/* Input Section */}
+          {/* Typing Indicator */}
+          {waitingForReply && (
+            <div className="text-sm text-gray-500 text-center">
+              Processing your message...
+            </div>
+          )}
+
+          {/* Input Field */}
           <div className="flex items-center space-x-2">
             <input
               type="text"
               placeholder="Type your message..."
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              className="flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-400"
+              disabled={waitingForReply}
             />
             <button
               onClick={handleSend}
-              className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
+              className="bg-gray-800 text-gray-200 px-4 py-2 rounded-lg hover:bg-gray-700 hover:text-white transition"
+              disabled={waitingForReply}
             >
               Send
             </button>
