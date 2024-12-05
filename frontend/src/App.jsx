@@ -1,19 +1,15 @@
-import Navbar from "./Components/Navbar/Navbar";
+import Navbar from "./Components/Navbar";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Shop from "./Pages/Shop";
 import ShopCategory from "./Pages/ShopCategory";
 import Product from "./Pages/Product";
 import Cart from "./Pages/Cart";
 import LoginSignup from "./Pages/LoginSignup";
-import Footer from "./Components/Footer/Footer";
-import menBanner from "./Assets/banner_mens.png";
-import womenBanner from "./Assets/banner_womens.png";
-import kidBanner from "./Assets/banner_kids.png";
-import accessoriesBanner from "./Assets/banner_accessories.png";
+import Footer from "./Components/Footer";
 import About from "./Pages/About";
 import Contact from "./Pages/Contact";
 import CheckoutPage from "./Pages/Checkout";
-import AIChatWindow from "./Components/AIChatWindow/AIChatWindow";
+import AIChatWindow from "./Components/AIChatWindow";
 import ResetPassword from "./Pages/ResetPassword";
 
 function App() {
@@ -24,23 +20,12 @@ function App() {
         <Routes>
           <Route path="/Home" element={<Shop />} />
 
-          <Route
-            path="/men"
-            element={<ShopCategory banner={menBanner} category="men" />}
-          />
-          <Route
-            path="/women"
-            element={<ShopCategory banner={womenBanner} category="women" />}
-          />
-          <Route
-            path="/kids"
-            element={<ShopCategory banner={kidBanner} category="kid" />}
-          />
+          <Route path="/men" element={<ShopCategory category="men" />} />
+          <Route path="/women" element={<ShopCategory category="women" />} />
+          <Route path="/kids" element={<ShopCategory category="kid" />} />
           <Route
             path="/accessories"
-            element={
-              <ShopCategory banner={accessoriesBanner} category="accessories" />
-            }
+            element={<ShopCategory category="accessories" />}
           />
           <Route path="/product" element={<Product />}>
             <Route path=":productId" element={<Product />} />

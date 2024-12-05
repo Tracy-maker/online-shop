@@ -1,6 +1,6 @@
 import { useState } from "react";
-import PrivacyPolicy from "../Components/PrivacyPolicy/PrivacyPolicy";
-import TermsOfService from "../Components/TermsOfService/TermsOfService";
+import PrivacyPolicy from "../Components/PrivacyPolicy";
+import TermsOfService from "../Components/TermsOfService";
 import ForgetPassword from "../Pages/ForgetPassword";
 import axios from "axios";
 

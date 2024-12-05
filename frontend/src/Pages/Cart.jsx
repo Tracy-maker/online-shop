@@ -1,4 +1,4 @@
-import CartItems from "../Components/CartItem/CartItems";
+import CartItems from "../Components/CartItems";
 import { Link } from "react-router-dom";
 
 const Cart = () => {

@@ -1,7 +1,7 @@
 import { useState } from "react";
-import PrivacyPolicy from "../PrivacyPolicy/PrivacyPolicy";
-import TermsOfService from "../TermsOfService/TermsOfService";
-import ReturnPolicy from "../ReturnPolicy/ReturnPolicy";
+import PrivacyPolicy from "./PrivacyPolicy";
+import TermsOfService from "./TermsOfService";
+import ReturnPolicy from "./ReturnPolicy";
 import { Link } from "react-router-dom";
 
 const Footer = () => {

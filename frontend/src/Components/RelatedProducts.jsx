@@ -1,5 +1,5 @@
-import data_product from "../../Assets/data";
-import Item from "../Item/Item";
+import data_product from "../Assets/data";
+import Item from "./Item";
 
 const RelatedProducts = () => {
   return (

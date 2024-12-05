@@ -1,6 +1,6 @@
 import { useState } from "react";
-import OrderList from "../OrderList/OrderList";
-import OrderDetails from "../OrderDetails/OrderDetails";
+import OrderList from "./OrderList";
+import OrderDetails from "./OrderDetails";
 import { useNavigate } from "react-router-dom";
 
 const OrderManagement = () => {

@@ -1,9 +1,9 @@
-import Hero from "../Components/Hero/Hero";
-import Popular from "../Components/Popular/Popular";
-import Offers from "../Components/Offers/Offers";
-import NewCollections from "../Components/NewCollections/NewCollections";
-import NewsLetter from "../Components/NewsLetter/NewsLetter";
-import Policy from "../Components/Policy/Policy";
+import Hero from "../Components/Hero";
+import Popular from "../Components/Popular";
+import Offers from "../Components/Offers";
+import NewCollections from "../Components/NewCollections";
+import NewsLetter from "../Components/NewsLetter";
+import Policy from "../Components/Policy";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 

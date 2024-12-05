@@ -1,14 +1,14 @@
 import { Routes, Route } from "react-router-dom";
-import Navbar from "./Components/Navbar/Navbar";
-import Footer from "./Components/Footer/Footer";
-import Home from "./Components/Home/Home";
-import Login from "./Pages/Login/Login";
-import ForgotPassword from "./Pages/ForgotPassword/ForgotPassword";
-import AddProduct from "./Components/AddProduct/AddProduct";
-import ListProduct from "./Components/ListProduct/ListProduct";
-import Admin from "./Pages/Admin/Admin";
-import OrderManagement from "./Components/OrderManagement/OrderManagement";
-import CustomerFeedback from "./Components/CustomerFeedback/CustomerFeedback";
+import Navbar from "./Components/Navbar";
+import Footer from "./Components/Footer";
+import Home from "./Components/Home";
+import Login from "./Pages/Login";
+import ForgotPassword from "./Pages/ForgotPassword";
+import AddProduct from "./Components/AddProduct";
+import ListProduct from "./Components/ListProduct";
+import Admin from "./Pages/Admin";
+import OrderManagement from "./Components/OrderManagement";
+import CustomerFeedback from "./Components/CustomerFeedback";
 
 function App() {
   return (

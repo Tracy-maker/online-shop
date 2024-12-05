@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Item from "../Item/Item";
+import Item from "./Item";
 
 const NewCollections = () => {
   const [newCollection, setNewCollection] = useState([]);

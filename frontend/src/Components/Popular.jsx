@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import PropTypes from "prop-types"; // 导入 PropTypes
-import Item from "../Item/Item";
+import PropTypes from "prop-types"; 
+import Item from "./Item";
 
 const Popular = ({ category }) => {
   const [popularProducts, setPopularProducts] = useState([]);
