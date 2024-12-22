@@ -1,3 +1,4 @@
+import axios from "axios";
 import PropTypes from "prop-types";
 import { useState } from "react";
 
@@ -22,10 +23,13 @@ const ForgetPassword = ({ onClose }) => {
     }
 
     try {
-      setTimeout(() => {
-        setMessage("If the email exists, a password reset link will be sent.");
-      }, 1000);
-    } catch {
+      const { data } = await axios.post(
+        "http://localhost:4000/api/forgot-password",
+        { email }
+      );
+      setMessage(data.message);
+    } catch (error) {
+      console.error(error);
       setError("Failed to send reset email. Please try again.");
     }
   };

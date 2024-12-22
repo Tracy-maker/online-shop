@@ -27,12 +27,13 @@ const Footer = () => {
       <ul className="grid grid-cols-2 gap-4 text-base font-medium sm:flex sm:justify-center sm:gap-8">
         {[
           { label: "Home", path: "/home" },
-          { label: "Men", path: "/men" },
           { label: "Women", path: "/women" },
+          { label: "Men", path: "/men" },
           { label: "Kids", path: "/kids" },
           { label: "Accessories", path: "/accessories" },
           { label: "About", path: "/about" },
           { label: "Contact", path: "/contact" },
+          { label: "Trends", path: "/trends" },
         ].map(({ label, path }, index) => (
           <li key={index} className="relative group text-center">
             <Link

@@ -1,50 +1,100 @@
-const Message = require("../models/message");
+const Message = require("../models/messageModel");
+const jwt = require("jsonwebtoken");
 
-exports.getMessages = async (req, res) => {
+export const adminLogin = async (req, res) => {
   try {
-    const messages = await Message.find().sort({ timestamp: -1 }); // Sort by newest
-    res.status(200).json(messages);
+    const { email, password } = req.body;
+
+    if (
+      email === process.env.ADMIN_EMAIL &&
+      password === process.env.ADMIN_PASSWORD
+    ) {
+      const token = jwt.sign(email + password, process.env.JWT_SECRET);
+      res.json({ success: true, token });
+    } else {
+      res.json({ success: false, message: "Invalid credentials" });
+    }
   } catch (error) {
-    res.status(500).json({ error: "Failed to fetch messages." });
+    console.log(error);
+    res.json({ success: false, message: error.message });
   }
 };
 
-exports.saveMessage = async (req, res) => {
-  const { name, email, phone, message } = req.body;
-
-  if (!name || !email || !phone || !message) {
-    return res.status(400).json({ error: "All fields are required." });
-  }
-
+export const getMessages = async (req, res) => {
   try {
-    const newMessage = new Message({ name, email, phone, message });
-    await newMessage.save();
-    res.status(201).json({ message: "Message saved successfully." });
+    const messages = await Message.find().sort({ createdAt: -1 });
+    res.json({ success: true, messages });
   } catch (error) {
-    res.status(500).json({ error: "Failed to save message." });
+    console.error(error);
+    res.json({ success: false, message: error.message });
   }
 };
 
-exports.replyMessage = async (req, res) => {
-  const { reply } = req.body;
-  const { id } = req.params;
-
-  if (!reply) {
-    return res.status(400).json({ error: "Reply cannot be empty." });
-  }
-
+export const replyMessage = async (req, res) => {
   try {
+    const { id } = req.params;
+    const { reply } = req.body;
+
     const message = await Message.findById(id);
     if (!message) {
-      return res.status(404).json({ error: "Message not found." });
+      return res
+        .status(404)
+        .json({ success: false, message: "Message not found" });
     }
-
     message.reply = reply;
-    message.repliedAt = new Date();
+    message.replied = true;
     await message.save();
-
-    res.status(200).json({ message: "Reply sent successfully." });
   } catch (error) {
-    res.status(500).json({ error: "Failed to send reply." });
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+export const sendMessage = async (req, res) => {
+  try {
+    const { name, content } = req.body;
+
+    const message = new Message({
+      name,
+      content,
+    });
+    await message.save();
+    res
+      .status(201)
+      .json({ success: true, message: "Message sent successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+export const saveMessage = async (req, res) => {
+  try {
+    const { name, content } = req.body;
+
+    const message = new Message({ name, content });
+    await message.save();
+    res.status(201).json({ success: true, message: "Message sent successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+
+export const markAsSeen = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const message = await Message.findById(id);
+    if (!message) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Message not found" });
+    }
+    message.isSeen = true;
+    await message.save();
+    res.json({ success: true, message: "Message marked as seen" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: error.message });
   }
 };

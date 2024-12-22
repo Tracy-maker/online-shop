@@ -1,90 +1,196 @@
+const { User } = require("../models/userModel");
+const { generateJWTToken } = require("../utils/generateJWTToken");
+const {
+  generateVerificationToken,
+} = require("../utils/generateVerificationToken");
+const { sendVerificationEmail, sendWelcomeEmail } = require("../resend/email");
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-const User = require("../models/userModels");
-const validator = require("validator");
 
-// Helper function to create JWT token
-const createToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-};
-
-// Signup a new user
-exports.signup = async (req, res) => {
+const signup = async (req, res) => {
+  const { name, email, password } = req.body;
   try {
-    const existingUser = await User.findOne({ email: req.body.email });
-    if (existingUser) {
-      return res.status(400).json({ error: "User already exists" });
+    if (!name || !email || !password) {
+      return res.status(400).json({ message: "All fields are required" });
     }
-    const hashedPassword = await bcrypt.hash(req.body.password, 10);
-    const user = new User({
-      name: req.body.name,
-      email: req.body.email,
-      password: hashedPassword,
-    });
-    await user.save();
-    res.status(201).json({ success: true, message: "User registered successfully" });
-  } catch (error) {
-    res.status(500).json({ error: "Failed to register user" });
-  }
-};
-
-// Login an existing user
-exports.login = async (req, res) => {
-  try {
-    const user = await User.findOne({ email: req.body.email });
-    if (!user) {
-      return res.status(400).json({ error: "Invalid email or password" });
-    }
-    const validPassword = await bcrypt.compare(req.body.password, user.password);
-    if (!validPassword) {
-      return res.status(400).json({ error: "Invalid email or password" });
-    }
-    const token = createToken(user._id);
-    res.json({ success: true, token });
-  } catch (error) {
-    res.status(500).json({ error: "Failed to login" });
-  }
-};
-
-// Admin-only route
-exports.admin = async (req, res) => {
-  if (!req.user || !req.user.isAdmin) {
-    return res.status(403).json({ error: "Admin access required" });
-  }
-  res.json({ message: "Welcome, admin!" });
-};
-
-// Register a new user by an admin
-exports.register = async (req, res) => {
-  try {
-    const { name, email, password, isAdmin } = req.body;
-    console.log("Received data:", req.body); 
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return res.status(400).json({ success: false, message: "User already exists" });
-    }
-    if (!validator.isEmail(email)) {
-      return res.status(400).json({ success: false, message: "Please enter a valid email" });
-    }
-    if (password.length < 8) {
-      return res.status(400).json({ success: false, message: "Password must be at least 8 characters" });
+    const userAlreadyExits = await userModel.findOne({ email });
+    if (userAlreadyExits) {
+      return res.status(401).json({ message: "User already exists" });
     }
     const hashedPassword = await bcrypt.hash(password, 10);
+    const verificationToken = generateVerificationToken();
     const user = new User({
       name,
       email,
       password: hashedPassword,
-      isAdmin: isAdmin || false,
+      verificationToken: verificationToken,
+      verificationExpiresAt: Date.now() + 24 * 60 * 60 * 1000,
     });
     await user.save();
-    const token = createToken(user._id);
+
+    generateJWTToken(res, user._id);
+
+    await sendVerificationEmail(user.email, verificationToken);
+
     res.status(201).json({
       success: true,
-      message: "User registered by admin successfully",
-      token,
+      message: "User created successfully",
+      user: {
+        ...user._doc,
+        password: undefined,
+      },
     });
   } catch (error) {
-    console.error("Error in register function:", error); 
-    res.status(500).json({ error: "Failed to register user" });
+    res.status(400).json({ success: false, message: error.message });
   }
+};
+
+const login = async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    const user = await User.findOne({ email: email });
+
+    if (!user) {
+      return res
+        .status(401)
+        .json({ success: false, message: "Invalid email or password" });
+    }
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res
+        .status(401)
+        .json({ success: false, message: "Invalid email or password" });
+    }
+    const isVerified = user.isVerified();
+    if (!isVerified) {
+      return res
+        .status(401)
+        .json({ success: false, message: "Email not verified" });
+    }
+
+    generateJWTToken(res, user._id);
+
+    res.status(200).json({
+      success: true,
+      message: "Login successful",
+    });
+  } catch (err) {
+    console.log("error logging in ", err);
+    res.status(500).json({ success: false, message: err.message });
+  }
+};
+
+const logout = async (req, res) => {
+  res.clearCookie("token");
+  res.status(200).json({ success: true, message: "Logged out successfully" });
+};
+
+const verifyEmail = async (req, res) => {
+  const { code } = req.body;
+  try {
+    const user = await User.findOne({
+      verificationToken: code,
+      verificationTokenExpiresAt: { $gt: Date.now() },
+    });
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const isVerified = user.isVerified();
+    if (isVerified) {
+      return res.status(400).json({ message: "Email already verified" });
+    }
+
+    user.isVerified = true;
+    user.verificationToken = undefined;
+    user.verificationExpiresAt = undefined;
+    await user.save();
+    await sendWelcomeEmail(user.email, user.name);
+
+    res.status(200).json({ success: true, message: "Email verified" });
+  } catch (error) {
+    console.log("error verifying email", error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+const forgotPassword = async (req, res) => {
+  const { email } = req.body;
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    const resetPasswordToken = crypto.randomBytes(32).toString("hex");
+    const resetPasswordExpiresAt = Date.now() + 24 * 60 * 60 * 1000;
+
+    user.resetPasswordToken = resetPasswordToken;
+    user.resetPasswordExpiresAt = resetPasswordExpiresAt;
+
+    await user.save();
+    await sendResetPasswordEmail(
+      user.email,
+      `${process.env.CLIENT_URL}/reset-password/${resetPasswordToken}`
+    );
+    res.status(200).json({
+      success: true,
+      message: "password reset email sent successfully!",
+    });
+  } catch (error) {
+    console.log("error forgot password", error);
+    res.status(400).json({ success: false, message: error.message });
+  }
+};
+
+const resetPassword = async (req, res) => {
+  const { token, password } = req.body;
+  try {
+    const user = await User.findOne({
+      resetPasswordToken: token,
+      resetPasswordExpiresAt: { $gt: Date.now() },
+    });
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    user.password = hashedPassword;
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpiresAt = undefined;
+
+    await user.save();
+
+    res
+      .status(200)
+      .json({ success: true, message: "Password reset successful" });
+  } catch (error) {
+    console.log("error resetting password", error);
+    res.status(400).json({ success: false, message: error.message });
+  }
+};
+
+const checkAuth = async (req, res) => {
+  try {
+    const user = await User.findById(req.userId);
+    if (!user) {
+      return res
+        .status(400)
+        .json({ success: false, message: "User not found" });
+    }
+    res
+      .status(200)
+      .json({ success: true, user: { ...user._doc, password: undefined } });
+  } catch (error) {}
+};
+
+module.exports = {
+  signup,
+  login,
+  logout,
+  forgotPassword,
+  verifyEmail,
+  resetPassword,
+  checkAuth,
 };

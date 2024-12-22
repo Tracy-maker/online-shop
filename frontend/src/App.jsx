@@ -11,6 +11,7 @@ import Contact from "./Pages/Contact";
 import CheckoutPage from "./Pages/Checkout";
 import AIChatWindow from "./Components/AIChatWindow";
 import ResetPassword from "./Pages/ResetPassword";
+import Trend from "./Pages/Trend";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
             path="/accessories"
             element={<ShopCategory category="accessories" />}
           />
+          <Route path="/trends" element={<Trend />} />
           <Route path="/product" element={<Product />}>
             <Route path=":productId" element={<Product />} />
           </Route>

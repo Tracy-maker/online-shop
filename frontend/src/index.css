@@ -1,7 +1,28 @@
+@import url("https://fonts.googleapis.com/css2?family=Bodoni+Moda:wght@400;700&family=Poppins:wght@300;400&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-body {
-  font-family: "Inter", sans-serif;
+h1,
+h2,
+h3 {
+  font-family: "Bodoni Moda", serif;
+  font-weight: 700;
+}
+
+body,
+p {
+  font-family: "Poppins", sans-serif;
+  font-weight: 300;
+}
+
+.dropdown-icon {
+  height: 16px;
+  width: 16px;
+  transition: transform 0.3s ease-in-out;
+}
+
+.dropdown-icon.open {
+  transform: rotate(180deg);
 }

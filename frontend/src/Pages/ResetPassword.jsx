@@ -1,58 +1,60 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import axios from "axios";
-import PropTypes from "prop-types";
 
-const ResetPassword = ({ userEmail }) => {
-  const [formData, setFormData] = useState({
-    password: "",
-    confirmPassword: "",
-  });
-  const [error, setError] = useState("");
+const ResetPassword = () => {
+  const { token } = useParams();
+  const [formData, setFormData] = useState({ password: "", confirmPassword: "" });
+  const [userEmail, setUserEmail] = useState("");
   const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    const fetchEmail = async () => {
+      try {
+        const { data } = await axios.get(`http://localhost:4000/api/reset-password/${token}`);
+        setUserEmail(data.email);
+      } catch (error) {
+        console.error("Failed to fetch user email:", error);
+        setError("Invalid or expired reset link.");
+      }
+    };
+
+    fetchEmail();
+  }, [token]);
 
   const changeHandler = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-    setError("");
-    setMessage("");
-  };
-
-  const validateForm = () => {
-    if (!formData.password.trim()) {
-      setError("Password is required.");
-      return false;
-    }
-
-    if (formData.password.length < 6) {
-      setError("Password must be at least 6 characters.");
-      return false;
-    }
-
-    if (formData.password !== formData.confirmPassword) {
-      setError("Passwords do not match.");
-      return false;
-    }
-
-    return true;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!validateForm()) return;
-
+    setMessage("");
+    setError("");
     setIsSubmitting(true);
+
+    if (!formData.password || formData.password.length < 6) {
+      setError("Password must be at least 6 characters.");
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (formData.password !== formData.confirmPassword) {
+      setError("Passwords do not match.");
+      setIsSubmitting(false);
+      return;
+    }
+
     try {
-      // Mock API call for demonstration purposes
-      const response = await axios.post("/api/reset-password", {
-        password: formData.password,
-        email: userEmail, // Send the email for backend reference
-      });
-      setMessage("Password reset successfully. You can now log in.");
-    } catch (err) {
-      setError(
-        err.response?.data?.message ||
-          "Failed to reset password. Please try again."
+      const { data } = await axios.post(
+        `http://localhost:4000/api/reset-password/${token}`,
+        { password: formData.password }
       );
+      setMessage(data.message);
+    } catch (error) {
+      console.error(error);
+      setError("Failed to reset password. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -66,12 +68,8 @@ const ResetPassword = ({ userEmail }) => {
         </h1>
         <p className="text-gray-600 text-center mb-6">
           Updating password for:{" "}
-          <span className="font-medium text-black">{userEmail}</span>
+          <span className="font-medium text-black">{userEmail || "Unknown User"}</span>
         </p>
-        <p className="text-gray-600 text-center mb-6">
-          Please enter your new password below.
-        </p>
-
         <form onSubmit={handleSubmit} className="flex flex-col gap-5">
           <div>
             <input
@@ -112,9 +110,6 @@ const ResetPassword = ({ userEmail }) => {
       </div>
     </div>
   );
-};
-ResetPassword.propTypes = {
-  userEmail: PropTypes.string.isRequired,
 };
 
 export default ResetPassword;

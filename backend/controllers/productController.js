@@ -1,51 +1,94 @@
-const Product = require("../models/productModel");
+const { v2: cloudinary } = require("cloudinary");
+const productModel = require("../models/productModel");
 
-// Fetch all products
-exports.getAllProducts = async (req, res) => {
-  try {
-    const products = await Product.find({});
-    res.status(200).json(products);
-  } catch (error) {
-    console.error("Error fetching products:", error.message);
-    res.status(500).json({ error: "Failed to fetch products" });
-  }
-};
+// function for add product
+const addProduct = async (req, res) => {
+    try {
 
-// Add a new product
-exports.addProduct = async (req, res) => {
-  try {
-    // Generate a new product ID by finding the highest existing ID
-    const lastProduct = await Product.findOne().sort({ id: -1 });
-    const id = lastProduct ? lastProduct.id + 1 : 1;
+        const { name, description, price, category, subCategory, sizes, bestseller } = req.body
 
-    // Create a new product
-    const newProduct = new Product({
-      id,
-      name: req.body.name,
-      image: req.body.image,
-      category: req.body.category,
-      new_price: req.body.new_price,
-      old_price: req.body.old_price,
-    });
+        const image1 = req.files.image1 && req.files.image1[0]
+        const image2 = req.files.image2 && req.files.image2[0]
+        const image3 = req.files.image3 && req.files.image3[0]
+        const image4 = req.files.image4 && req.files.image4[0]
 
-    await newProduct.save();
-    res.status(201).json({ success: true, product: newProduct });
-  } catch (error) {
-    console.error("Error adding product:", error.message);
-    res.status(500).json({ error: "Failed to add product" });
-  }
-};
+        const images = [image1, image2, image3, image4].filter((item) => item !== undefined)
 
-// Remove a product
-exports.removeProduct = async (req, res) => {
-  try {
-    const product = await Product.findOneAndDelete({ id: req.body.id });
-    if (!product) {
-      return res.status(404).json({ error: "Product not found" });
+        let imagesUrl = await Promise.all(
+            images.map(async (item) => {
+                let result = await cloudinary.uploader.upload(item.path, { resource_type: 'image' });
+                return result.secure_url
+            })
+        )
+
+        const productData = {
+            name,
+            description,
+            category,
+            price: Number(price),
+            subCategory,
+            bestseller: bestseller === "true" ? true : false,
+            sizes: JSON.parse(sizes),
+            image: imagesUrl,
+            date: Date.now()
+        }
+
+        console.log(productData);
+
+        const product = new productModel(productData);
+        await product.save()
+
+        res.json({ success: true, message: "Product Added" })
+
+    } catch (error) {
+        console.log(error)
+        res.json({ success: false, message: error.message })
     }
-    res.status(200).json({ success: true, message: "Product removed" });
-  } catch (error) {
-    console.error("Error removing product:", error.message);
-    res.status(500).json({ error: "Failed to remove product" });
-  }
+}
+
+// function for list product
+const listProducts = async (req, res) => {
+    try {
+        
+        const products = await productModel.find({});
+        res.json({success:true,products})
+
+    } catch (error) {
+        console.log(error)
+        res.json({ success: false, message: error.message })
+    }
+}
+
+// function for removing product
+const removeProduct = async (req, res) => {
+    try {
+        
+        await productModel.findByIdAndDelete(req.body.id)
+        res.json({success:true,message:"Product Removed"})
+
+    } catch (error) {
+        console.log(error)
+        res.json({ success: false, message: error.message })
+    }
+}
+
+// function for single product info
+const singleProduct = async (req, res) => {
+    try {
+        
+        const { productId } = req.body
+        const product = await productModel.findById(productId)
+        res.json({success:true,product})
+
+    } catch (error) {
+        console.log(error)
+        res.json({ success: false, message: error.message })
+    }
+}
+
+module.exports = {
+  listProducts,
+  addProduct,
+  removeProduct,
+  singleProduct,
 };

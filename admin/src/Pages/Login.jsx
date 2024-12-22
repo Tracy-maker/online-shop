@@ -11,7 +11,9 @@ function Login() {
 
       {/* Login Form */}
       <div className="z-10 max-w-md w-full bg-white bg-opacity-90 p-8 rounded-lg shadow-2xl">
-        <h2 className="text-3xl font-bold mb-6 text-center text-gray-800">Login</h2>
+        <h2 className="text-3xl font-bold mb-6 text-center text-gray-800">
+          Login
+        </h2>
         <form>
           <div className="mb-4">
             <label className="block text-gray-700 font-medium">Email</label>
@@ -30,7 +32,10 @@ function Login() {
             />
           </div>
           <div className="text-right mb-4">
-            <Link to="/forgot-password" className="text-blue-500 hover:underline">
+            <Link
+              to="/forgot-password"
+              className="text-blue-500 hover:underline"
+            >
               Forgot Password?
             </Link>
           </div>

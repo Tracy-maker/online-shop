@@ -4,15 +4,19 @@ const {
   getMessages,
   saveMessage,
   replyMessage,
+  markAsSeen,
 } = require("../controllers/adminController");
 
-// get all messages
+// Get all messages
 router.get("/messages", getMessages);
 
-// store messages
-router.post("/messages", saveMessage);
+// Store a new message
+router.post("/new-messages", saveMessage);
 
-// reply message to customer
+// Reply to a message
 router.post("/messages/:id/reply", replyMessage);
+
+// Mark a message as seen
+router.patch("/messages/:id/seen", markAsSeen);
 
 module.exports = router;
