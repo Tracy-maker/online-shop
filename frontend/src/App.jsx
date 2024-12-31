@@ -11,7 +11,6 @@ import Contact from "./Pages/Contact";
 import CheckoutPage from "./Pages/Checkout";
 import AIChatWindow from "./Components/AIChatWindow";
 import ResetPassword from "./Pages/ResetPassword";
-import Trend from "./Pages/Trend";
 
 function App() {
   return (
@@ -20,7 +19,6 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/Home" element={<Shop />} />
-
           <Route path="/men" element={<ShopCategory category="men" />} />
           <Route path="/women" element={<ShopCategory category="women" />} />
           <Route path="/kids" element={<ShopCategory category="kid" />} />
@@ -28,7 +26,7 @@ function App() {
             path="/accessories"
             element={<ShopCategory category="accessories" />}
           />
-          <Route path="/trends" element={<Trend />} />
+
           <Route path="/product" element={<Product />}>
             <Route path=":productId" element={<Product />} />
           </Route>

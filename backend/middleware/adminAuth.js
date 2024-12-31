@@ -2,20 +2,24 @@ const jwt = require("jsonwebtoken");
 
 const adminAuth = (req, res, next) => {
   try {
-    const token = req.headers.authorization?.split(" ")[1]; // Expect "Bearer <token>"
+    const { token } = req.headers;
     if (!token) {
-      return res.status(401).json({ message: "No token provided, access denied" });
+      return res.json({
+        success: false,
+        message: "Not Authorized Login Again",
+      });
     }
-
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    if (decoded.role !== "admin") {
-      return res.status(403).json({ message: "Access forbidden, not an admin" });
+    const token_decode = jwt.verify(token, process.env.JWT_SECRET);
+    if (token_decode !== process.env.ADMIN_EMAIL + process.env.ADMIN_PASSWORD) {
+      return res.json({
+        success: false,
+        message: "Not Authorized Login Again",
+      });
     }
-
-    req.user = decoded;
     next();
   } catch (error) {
-    res.status(401).json({ message: "Invalid token, access denied" });
+    console.log(error);
+    res.json({ success: false, message: error.message });
   }
 };
 

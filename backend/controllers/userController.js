@@ -182,7 +182,10 @@ const checkAuth = async (req, res) => {
     res
       .status(200)
       .json({ success: true, user: { ...user._doc, password: undefined } });
-  } catch (error) {}
+  } catch (error) {
+    console.log("error checking auth", error);
+    res.status(400).json({ success: false, message: error.message });
+  }
 };
 
 module.exports = {

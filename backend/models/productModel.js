@@ -14,12 +14,10 @@ const productSchema = new mongoose.Schema(
     category: {
       type: String,
       required: true,
-      enum: ["women", "men", "kids", "accessories"],
     },
     subcategory: {
       type: String,
       required: true,
-      enum: ["tops", "pants", "skirts"], // Add more as needed
     },
     price: {
       type: Number,
@@ -29,28 +27,10 @@ const productSchema = new mongoose.Schema(
     color: {
       type: String,
       required: true,
-      enum: [
-        "Black",
-        "White",
-        "Purple",
-        "Pink",
-        "Burgundy",
-        "Red",
-        "Blue",
-        "Orange",
-        "Beige",
-        "Green",
-        "Brown",
-        "Yellow",
-        "Grey",
-        "Multicolor",
-        "Brown Gray",
-      ],
     },
     usage: {
       type: String,
       required: true,
-      enum: ["work", "date", "anniversary"],
     },
     sizes: {
       type: Map,
@@ -70,7 +50,7 @@ const productSchema = new mongoose.Schema(
       required: true,
       validate: {
         validator: function (array) {
-          return array.length <= 4; 
+          return array.length <= 4;
         },
         message: "You can upload a maximum of 4 images.",
       },

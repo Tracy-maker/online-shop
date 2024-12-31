@@ -1,7 +1,7 @@
 const Message = require("../models/messageModel");
 const jwt = require("jsonwebtoken");
 
-export const adminLogin = async (req, res) => {
+const adminLogin = async (req, res) => {
   try {
     const { email, password } = req.body;
 
@@ -20,7 +20,7 @@ export const adminLogin = async (req, res) => {
   }
 };
 
-export const getMessages = async (req, res) => {
+const getMessages = async (req, res) => {
   try {
     const messages = await Message.find().sort({ createdAt: -1 });
     res.json({ success: true, messages });
@@ -30,7 +30,7 @@ export const getMessages = async (req, res) => {
   }
 };
 
-export const replyMessage = async (req, res) => {
+const replyMessage = async (req, res) => {
   try {
     const { id } = req.params;
     const { reply } = req.body;
@@ -44,12 +44,14 @@ export const replyMessage = async (req, res) => {
     message.reply = reply;
     message.replied = true;
     await message.save();
+
+    res.json({ success: true, message: "Reply sent successfully" });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
 };
 
-export const sendMessage = async (req, res) => {
+const sendMessage = async (req, res) => {
   try {
     const { name, content } = req.body;
 
@@ -67,21 +69,7 @@ export const sendMessage = async (req, res) => {
   }
 };
 
-export const saveMessage = async (req, res) => {
-  try {
-    const { name, content } = req.body;
-
-    const message = new Message({ name, content });
-    await message.save();
-    res.status(201).json({ success: true, message: "Message sent successfully" });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ success: false, message: error.message });
-  }
-};
-
-
-export const markAsSeen = async (req, res) => {
+const markAsSeen = async (req, res) => {
   try {
     const { id } = req.params;
     const message = await Message.findById(id);
@@ -97,4 +85,12 @@ export const markAsSeen = async (req, res) => {
     console.error(error);
     res.status(500).json({ success: false, message: error.message });
   }
+};
+
+module.exports = {
+  adminLogin,
+  getMessages,
+  replyMessage,
+  markAsSeen,
+  sendMessage,
 };
