@@ -33,7 +33,6 @@ const Footer = () => {
           { label: "Accessories", path: "/accessories" },
           { label: "About", path: "/about" },
           { label: "Contact", path: "/contact" },
-          { label: "Trends", path: "/trends" },
         ].map(({ label, path }, index) => (
           <li key={index} className="relative group text-center">
             <Link

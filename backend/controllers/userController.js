@@ -1,8 +1,6 @@
-const { User } = require("../models/userModel");
-const { generateJWTToken } = require("../utils/generateJWTToken");
-const {
-  generateVerificationToken,
-} = require("../utils/generateVerificationToken");
+const User = require("../models/userModel");
+const generateJWTToken = require("../utils/generateJWTToken");
+const generateVerificationToken = require("../utils/generateVerificationToken");
 const { sendVerificationEmail, sendWelcomeEmail } = require("../resend/email");
 const bcrypt = require("bcrypt");
 
@@ -12,7 +10,7 @@ const signup = async (req, res) => {
     if (!name || !email || !password) {
       return res.status(400).json({ message: "All fields are required" });
     }
-    const userAlreadyExits = await userModel.findOne({ email });
+    const userAlreadyExits = await User.findOne({ email });
     if (userAlreadyExits) {
       return res.status(401).json({ message: "User already exists" });
     }
