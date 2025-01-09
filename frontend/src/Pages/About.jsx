@@ -1,3 +1,5 @@
+import NewsLetter from "../Components/NewsLetter";
+
 const About = () => {
   return (
     <div className="container mx-auto p-8">
@@ -50,55 +52,32 @@ const About = () => {
         </div>
 
         {/* About Images */}
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-2">
           <img
             src="https://images.unsplash.com/photo-1515339760107-1952b7a08454?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHx0b3BpYy1mZWVkfDE2fGJvOGpRS1RhRTBZfHxlbnwwfHx8fHw%3D"
             alt="Stylish Clothing"
-            className="w-full h-40 object-cover rounded-lg shadow"
+            className="w-full h-48 object-cover rounded-lg shadow"
           />
           <img
             src="https://images.unsplash.com/photo-1484503793037-5c9644d6a80a?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHx0b3BpYy1mZWVkfDEzfGJvOGpRS1RhRTBZfHxlbnwwfHx8fHw%3D"
             alt="Accessories"
-            className="w-full h-40 object-cover rounded-lg shadow"
+            className="w-full h-48 object-cover rounded-lg shadow"
           />
           <img
             src="https://plus.unsplash.com/premium_photo-1691979207044-2079b438af30?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHx0b3BpYy1mZWVkfDI1fGJvOGpRS1RhRTBZfHxlbnwwfHx8fHw%3D"
             alt="Kids Fashion"
-            className="w-full h-40 object-cover rounded-lg shadow"
+            className="w-full h-48 object-cover rounded-lg shadow"
           />
           <img
             src="https://images.unsplash.com/photo-1731946934369-2441982c76bf?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHx0b3BpYy1mZWVkfDQ2fGJvOGpRS1RhRTBZfHxlbnwwfHx8fHw%3D"
             alt="Men's Wear"
-            className="w-full h-40 object-cover rounded-lg shadow"
+            className="w-full h-48 object-cover rounded-lg shadow"
           />
         </div>
       </section>
 
-      {/* Join Us Section */}
-      <section className="bg-gray-100 rounded-lg shadow-lg py-8 px-6 text-center">
-        <h3 className="text-2xl font-bold text-gray-800 mb-4">
-          Join Our Community
-        </h3>
-        <p className="text-lg text-gray-600 mb-6">
-          Be part of a fashion movement that celebrates individuality and
-          inclusivity. Follow us for the latest trends, exclusive discounts, and
-          more!
-        </p>
-        <div className="flex justify-center space-x-4">
-          <a
-            href="#"
-            className="bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-700 transition"
-          >
-            Follow on Instagram
-          </a>
-          <a
-            href="#"
-            className="bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-700 transition"
-          >
-            Like on Facebook
-          </a>
-        </div>
-      </section>
+      {/* NewsLetter Section */}
+      <NewsLetter />
     </div>
   );
 };

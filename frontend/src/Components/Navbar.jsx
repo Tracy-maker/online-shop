@@ -42,11 +42,6 @@ const Navbar = () => {
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
         {/* Logo */}
         <Link to="/Home" className="flex items-center gap-3">
-          <img
-            src="https://i.ibb.co/BZbmw7d/Screenshot-2024-02-03-at-12-44-12-pm.png"
-            alt="logo"
-            className="w-8 md:w-10"
-          />
           <span className="text-lg md:text-2xl font-bold text-gray-800">
             Rimberio
           </span>

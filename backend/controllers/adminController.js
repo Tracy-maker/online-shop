@@ -6,11 +6,6 @@ const adminLogin = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // Debug logs
-    console.log("Received email:", email);
-    console.log("Received password:", password);
-    console.log("Stored hashed password:", process.env.ADMIN_PASSWORD_HASH);
-
     if (!email || !password) {
       return res
         .status(400)

@@ -8,15 +8,27 @@ const AddProduct = () => {
     name: "",
     description: "",
     category: "women",
-    subcategory: "tops",
+    subcategory: "dress",
     price: "",
     color: "Black",
-    usage: "work",
-    sizes: { S: 0, M: 0, L: 0, XL: 0, XXL: 0 },
+    sizes: [],
     bestSeller: false,
-    newProduct: false,
   });
   const [loading, setLoading] = useState(false);
+
+  const subcategoryOptions = {
+    women: ["dress", "tops", "shirts", "pants", "accessories"],
+    men: ["shirts", "pants", "tops", "accessories"],
+    kids: ["dress", "tops", "shirts", "pants", "accessories"],
+  };
+  const toggleSize = (size) => {
+    setProductDetails((prevDetails) => ({
+      ...prevDetails,
+      sizes: prevDetails.sizes.includes(size)
+        ? prevDetails.sizes.filter((s) => s !== size)
+        : [...prevDetails.sizes, size],
+    }));
+  };
 
   const imageHandler = (e) => {
     const selectedFiles = Array.from(e.target.files);
@@ -37,6 +49,12 @@ const AddProduct = () => {
       });
     } else if (type === "checkbox") {
       setProductDetails({ ...productDetails, [name]: checked });
+    } else if (name === "category") {
+      setProductDetails({
+        ...productDetails,
+        category: value,
+        subcategory: subcategoryOptions[value][0],
+      });
     } else {
       setProductDetails({ ...productDetails, [name]: value });
     }
@@ -104,11 +122,11 @@ const AddProduct = () => {
           name: "",
           description: "",
           category: "women",
-          subcategory: "tops",
+          subcategory: "dress",
           price: "",
           color: "Black",
           usage: "work",
-          sizes: { S: 0, M: 0, L: 0, XL: 0, XXL: 0 },
+          sizes: [],
           bestSeller: false,
           newProduct: false,
         });
@@ -182,7 +200,6 @@ const AddProduct = () => {
               <option value="women">Women</option>
               <option value="men">Men</option>
               <option value="kids">Kids</option>
-              <option value="accessories">Accessories</option>
             </select>
           </div>
           <div>
@@ -195,9 +212,13 @@ const AddProduct = () => {
               name="subcategory"
               className="w-full px-4 py-3 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 text-gray-700"
             >
-              <option value="tops">Tops</option>
-              <option value="pants">Pants</option>
-              <option value="skirts">Skirts</option>
+              {subcategoryOptions[productDetails.category].map(
+                (subcategory) => (
+                  <option key={subcategory} value={subcategory}>
+                    {subcategory.charAt(0).toUpperCase() + subcategory.slice(1)}
+                  </option>
+                )
+              )}
             </select>
           </div>
         </div>
@@ -205,7 +226,7 @@ const AddProduct = () => {
         {/* Price */}
         <div>
           <label className="block text-lg font-medium mb-2">
-            Price (in AUD) <span className="text-red-500">*</span>
+            Price (AUD) <span className="text-red-500">*</span>
           </label>
           <input
             value={productDetails.price}
@@ -242,36 +263,37 @@ const AddProduct = () => {
             <option value="Brown Gray">Brown Gray</option>
           </select>
         </div>
-
         {/* Usage and Sizes */}
-        <div className="grid grid-cols-2 gap-6">
-          <div>
-            <label className="block text-lg font-medium mb-2">Usage</label>
-            <select
-              value={productDetails.usage}
+        <div className="grid grid-cols-2 gap-8">
+          {/* Best Seller */}
+          <div className="flex items-center gap-4">
+            <input
+              type="checkbox"
+              name="bestSeller"
+              checked={productDetails.bestSeller}
               onChange={changeHandler}
-              name="usage"
-              className="w-full px-4 py-3 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 text-gray-700"
-            >
-              <option value="work">Work</option>
-              <option value="date">Date</option>
-              <option value="anniversary">Anniversary</option>
-            </select>
+              className="w-5 h-5 focus:ring-2 focus:ring-blue-500 rounded border-gray-300"
+            />
+            <label className="text-lg font-medium text-gray-700">
+              Add to Best Seller
+            </label>
           </div>
+
+          {/* Sizes */}
           <div>
-            <label className="block text-lg font-medium mb-2">Sizes</label>
-            <div className="grid grid-cols-5 gap-4">
+            <p className="mb-2">Select Sizes</p>
+            <div className="flex gap-3">
               {["S", "M", "L", "XL", "XXL"].map((size) => (
-                <div key={size} className="flex flex-col items-center">
-                  <label className="text-sm">{size}</label>
-                  <input
-                    type="number"
-                    name={`size-${size}`}
-                    value={productDetails.sizes[size] || 0}
-                    onChange={changeHandler}
-                    min="0"
-                    className="w-16 px-2 py-1 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 text-gray-700 text-center"
-                  />
+                <div
+                  key={size}
+                  onClick={() => toggleSize(size)}
+                  className={`px-3 py-1 cursor-pointer rounded-lg ${
+                    productDetails.sizes.includes(size)
+                      ? "bg-blue-500 text-white" 
+                      : "bg-gray-200 text-gray-700" 
+                  }`}
+                >
+                  {size}
                 </div>
               ))}
             </div>
@@ -309,31 +331,6 @@ const AddProduct = () => {
             onChange={imageHandler}
             className="mt-4"
           />
-        </div>
-
-        {/* Best Seller */}
-        <div className="flex gap-5">
-          <label className="flex items-center gap-2">
-            <input
-              type="checkbox"
-              name="bestSeller"
-              checked={productDetails.bestSeller}
-              onChange={changeHandler}
-              className="focus:ring-2 focus:ring-blue-500"
-            />
-            Add to Best Seller
-          </label>
-
-          <label className="flex items-center gap-2">
-            <input
-              type="checkbox"
-              name="newProduct"
-              checked={productDetails.newProduct}
-              onChange={changeHandler}
-              className="focus:ring-2 focus:ring-blue-500"
-            />
-            Add to New Product
-          </label>
         </div>
 
         {/* Add Button */}

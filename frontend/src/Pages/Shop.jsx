@@ -2,8 +2,6 @@ import Hero from "../Components/Hero";
 import Popular from "../Components/Popular";
 import Offers from "../Components/Offers";
 import NewCollections from "../Components/NewCollections";
-import NewsLetter from "../Components/NewsLetter";
-import Policy from "../Components/Policy";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
@@ -117,33 +115,8 @@ const Shop = () => {
         </motion.div>
       </section>
 
-      {/* Newsletter Section */}
-      <section id="newsletter" className="mb-2 px-4">
-        <motion.div
-          initial="hidden"
-          animate={visibleSection === "newsletter" ? "visible" : "hidden"}
-          variants={{
-            hidden: { opacity: 0, y: 50 },
-            visible: { opacity: 1, y: 0, transition: { duration: 0.8 } },
-          }}
-        >
-          <NewsLetter />
-        </motion.div>
-      </section>
+     
 
-      {/* Policy Section */}
-      <section id="policy" className="px-4">
-        <motion.div
-          initial="hidden"
-          animate={visibleSection === "policy" ? "visible" : "hidden"}
-          variants={{
-            hidden: { opacity: 0, scale: 0.8 },
-            visible: { opacity: 1, scale: 1, transition: { duration: 0.8 } },
-          }}
-        >
-          <Policy />
-        </motion.div>
-      </section>
     </div>
   );
 };
