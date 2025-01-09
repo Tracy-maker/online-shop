@@ -100,23 +100,25 @@ const Shop = () => {
           variants={{
             visible: { transition: { staggerChildren: 0.2 } },
           }}
-          className="grid grid-cols-1 gap-12"
+          className="space-y-16" // Updated for a vertical stack layout
         >
           {["Women", "Men", "Kids"].map((category, i) => (
             <motion.div
               key={category}
               custom={i}
-              variants={flowVariants}
+              variants={{
+                hidden: { opacity: 0, scale: 0.8 },
+                visible: { opacity: 1, scale: 1 },
+              }}
+              transition={{ duration: 0.8, delay: i * 0.2 }}
               className="overflow-hidden"
             >
+              {/* Pass category to the Popular component */}
               <Popular category={category} />
             </motion.div>
           ))}
         </motion.div>
       </section>
-
-     
-
     </div>
   );
 };

@@ -71,12 +71,12 @@ const Footer = () => {
         ))}
       </div>
 
-      {/* Logo Section */}
+     {/* Logo Section */}
       <div className="flex flex-col sm:flex-row items-center gap-4 mt-4">
         <p className="text-5xl sm:text-7xl font-black tracking-wide text-center sm:text-left">
           Rimberio ONLINE SOLUTION
         </p>
-      </div>
+      </div> 
 
       {/* Divider and Disclaimer Section */}
       <div className="w-full flex flex-col items-center gap-4 mt-6">

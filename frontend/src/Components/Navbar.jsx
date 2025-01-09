@@ -39,7 +39,7 @@ const Navbar = () => {
 
   return (
     <nav className="bg-white text-black shadow-lg sticky top-0 z-50">
-      <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+      <div className="container mx-auto px-1 py-4 flex items-center justify-between">
         {/* Logo */}
         <Link to="/Home" className="flex items-center gap-3">
           <span className="text-lg md:text-2xl font-bold text-gray-800">

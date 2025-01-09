@@ -24,13 +24,9 @@ const Navbar = () => {
       <div className="container mx-auto flex justify-between items-center px-6">
         {/* Store Name */}
         <div className="flex items-center space-x-4">
-          <img
-            src="https://i.ibb.co/BZbmw7d/Screenshot-2024-02-03-at-12-44-12-pm.png" 
-            alt="profile"
-            className="w-10 h-10 rounded-full border-2 border-gray-300"
-          />
+        
           <h1 className="text-lg font-semibold tracking-wide text-gray-900">
-            Rimberio Online Solution
+            Rimberio ONLINE SOLUTION
           </h1>
         </div>
 

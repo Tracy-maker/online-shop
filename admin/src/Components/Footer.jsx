@@ -4,20 +4,17 @@ const Footer = () => {
   return (
     <footer className="bg-gradient-to-t from-black to-gray-500 text-gray-300 py-10">
       <div className="container mx-auto px-6 lg:px-12">
+        {/* Main Logo Section */}
+        <div className="text-center mb-8">
+          <p className="text-5xl sm:text-4xl lg:text-6xl font-black tracking-wide text-white">
+            Rimberio ONLINE SOLUTION
+          </p>
+        </div>
+
         {/* Footer Content */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-          {/* Section 1: Logo and About */}
+          {/* Section 1: About */}
           <div className="text-center md:text-left">
-            <div className="flex items-center justify-center md:justify-start gap-3">
-              <img
-                src="https://i.ibb.co/m6kzc7W/Wechat-IMG10365.png"
-                alt="logo"
-                className="w-14 animate-bounce"
-              />
-              <h2 className="text-3xl font-bold text-white tracking-wide">
-                Rimberio ONLINE SOLUTION
-              </h2>
-            </div>
             <p className="text-sm mt-4 text-gray-400 leading-relaxed">
               Simplify your fashion store management. Organize inventory, track
               sales, and stay ahead of the latest trends with Rimberio Admin.
@@ -26,7 +23,9 @@ const Footer = () => {
 
           {/* Section 2: Social Media */}
           <div className="text-center">
-            <h3 className="text-lg font-semibold text-white">Connect with Us</h3>
+            <h3 className="text-lg font-semibold text-white">
+              Our Social Community
+            </h3>
             <div className="flex justify-center gap-6 mt-4">
               <a
                 href="https://www.instagram.com"
@@ -70,10 +69,6 @@ const Footer = () => {
               This admin panel is for authorized use only. All images and
               content are placeholders or royalty-free.
             </p>
-            <p className="text-sm mt-4 text-gray-400 leading-relaxed">
-              Designed and created by{" "}
-              <span className="font-bold text-blue-400">Yix.z</span>.
-            </p>
           </div>
         </div>
 
@@ -84,9 +79,24 @@ const Footer = () => {
 
         {/* Footer Bottom */}
         <div className="text-center">
+          {/* Copyright */}
           <p className="text-sm">
             © {new Date().getFullYear()} Rimberio Online Solution. All Rights
             Reserved.
+          </p>
+
+          {/* Designer Info */}
+          <p className="animate-pulse text-white font-semibold mt-4">
+            Created and designed with 💖 by{" "}
+            <a
+              href="https://www.linkedin.com/in/yingxin-zhang-ba1028212/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-bold text-blue-300 hover:underline"
+            >
+              Yingxin.Zhang
+            </a>
+            .
           </p>
         </div>
       </div>

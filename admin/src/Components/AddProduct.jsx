@@ -289,8 +289,8 @@ const AddProduct = () => {
                   onClick={() => toggleSize(size)}
                   className={`px-3 py-1 cursor-pointer rounded-lg ${
                     productDetails.sizes.includes(size)
-                      ? "bg-blue-500 text-white" 
-                      : "bg-gray-200 text-gray-700" 
+                      ? "bg-blue-500 text-white"
+                      : "bg-gray-200 text-gray-700"
                   }`}
                 >
                   {size}
