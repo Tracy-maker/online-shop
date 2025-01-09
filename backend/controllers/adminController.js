@@ -1,22 +1,38 @@
 const Message = require("../models/messageModel");
 const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
 
 const adminLogin = async (req, res) => {
   try {
     const { email, password } = req.body;
 
+    // Debug logs
+    console.log("Received email:", email);
+    console.log("Received password:", password);
+    console.log("Stored hashed password:", process.env.ADMIN_PASSWORD_HASH);
+
+    if (!email || !password) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Email and password are required" });
+    }
+
     if (
       email === process.env.ADMIN_EMAIL &&
-      password === process.env.ADMIN_PASSWORD
+      bcrypt.compareSync(password, process.env.ADMIN_PASSWORD_HASH)
     ) {
-      const token = jwt.sign(email + password, process.env.JWT_SECRET);
-      res.json({ success: true, token });
-    } else {
-      res.json({ success: false, message: "Invalid credentials" });
+      const token = jwt.sign({ email }, process.env.JWT_SECRET, {
+        expiresIn: "1h",
+      });
+      console.log("Login successful, token generated");
+      return res.status(200).json({ success: true, token });
     }
+
+    console.log("Invalid credentials");
+    res.status(401).json({ success: false, message: "Invalid credentials" });
   } catch (error) {
-    console.log(error);
-    res.json({ success: false, message: error.message });
+    console.error("Error in adminLogin:", error);
+    res.status(500).json({ success: false, message: "Internal Server Error" });
   }
 };
 

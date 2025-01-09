@@ -7,7 +7,7 @@ const {
 const sendVerificationEmail = async (email, verificationToken) => {
   try {
     const { data } = await resend.emails.send({
-      from: "Rimberio Online <support@rimberio.com>",
+      from: "Rimberio Online <onboarding@resend.dev>",
       to: [email],
       subject: "Verify Your Email Address",
       html: verificationTokenEmailTemplate.replace(
@@ -26,7 +26,7 @@ const sendVerificationEmail = async (email, verificationToken) => {
 const sendWelcomeEmail = async (email, name) => {
   try {
     const { data } = await resend.emails.send({
-      from: "Rimberio Online <support@rimberio.com>",
+      from: "Rimberio Online <onboarding@resend.dev>",
       to: [email],
       subject: "Welcome to Rimberio!",
       html: WELCOME_EMAIL_TEMPLATE.replace("{name}", name),
@@ -72,7 +72,7 @@ const sendPasswordResetEmail = async (email, resetURL) => {
       </html>
     `;
     const { data } = await resend.emails.send({
-      from: "Rimberio Online <support@rimberio.com>",
+      from: "Rimberio Online <onboarding@resend.dev>",
       to: [email],
       subject: "Reset Your Password",
       html: `Click <a href="${resetURL}">here</a> to reset your password`,
@@ -107,7 +107,7 @@ const sendResetSuccessEmail = async (email) => {
       </html>
     `;
     const { data } = await resend.emails.send({
-      from: "Rimberio Online <support@rimberio.com>",
+      from: "Rimberio Online <onboarding@resend.dev>",
       to: [email],
       subject: "Your Password Has Been Reset",
       html: successEmailHTML,

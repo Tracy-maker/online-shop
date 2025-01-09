@@ -15,9 +15,9 @@ const ShopCategory = ({ category }) => {
 
   const categoryColors = {
     women: "#9297c8",
-    men: "#ee7036",
+    men: "#b6c796",
     kid: "#f7cb9a",
-    accessories: "#b6c796",
+    accessories: "#36a7ee",
     default: "#f6a7ec",
   };
 
@@ -27,7 +27,9 @@ const ShopCategory = ({ category }) => {
   const toggleColor = (e) => {
     const { value } = e.target;
     setSelectedColors((prev) =>
-      prev.includes(value) ? prev.filter((color) => color !== value) : [...prev, value]
+      prev.includes(value)
+        ? prev.filter((color) => color !== value)
+        : [...prev, value]
     );
   };
 
@@ -35,7 +37,9 @@ const ShopCategory = ({ category }) => {
   const toggleSize = (e) => {
     const { value } = e.target;
     setSelectedSizes((prev) =>
-      prev.includes(value) ? prev.filter((size) => size !== value) : [...prev, value]
+      prev.includes(value)
+        ? prev.filter((size) => size !== value)
+        : [...prev, value]
     );
   };
 
@@ -43,7 +47,9 @@ const ShopCategory = ({ category }) => {
   const toggleUsage = (e) => {
     const { value } = e.target;
     setSelectedUsage((prev) =>
-      prev.includes(value) ? prev.filter((usage) => usage !== value) : [...prev, value]
+      prev.includes(value)
+        ? prev.filter((usage) => usage !== value)
+        : [...prev, value]
     );
   };
 
@@ -90,8 +96,6 @@ const ShopCategory = ({ category }) => {
 
       {/* Filters and Sorting Section */}
       <div className="w-full px-8 sm:px-10 mt-10 flex flex-wrap items-start">
-
-
         {/* Filter Sidebar */}
         <Filter
           showFilter={showFilter}
