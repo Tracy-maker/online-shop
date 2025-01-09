@@ -102,7 +102,7 @@ const Shop = () => {
           }}
           className="grid grid-cols-1 gap-12"
         >
-          {["Women", "Men", "Kids", "Accessories"].map((category, i) => (
+          {["Women", "Men", "Kids"].map((category, i) => (
             <motion.div
               key={category}
               custom={i}

@@ -49,40 +49,36 @@ const Navbar = () => {
 
         {/* Desktop Links */}
         <ul className="hidden md:flex items-center space-x-4 lg:space-x-8 font-medium">
-          {["Women", "Men", "Kids"].map(
-            (label, index) => (
-              <li key={index}>
-                <Link
-                  to={`/${label.toLowerCase()}`}
-                  className={`hover:text-gray-700 ${
-                    menu === label.toLowerCase()
-                      ? "text-black font-semibold"
-                      : ""
-                  }`}
-                  onClick={() => setMenu(label.toLowerCase())}
-                >
-                  {label}
-                </Link>
-              </li>
-            )
-          )}
+          {["Women", "Men", "Kids", "About", "Contact"].map((label, index) => (
+            <li key={index}>
+              <Link
+                to={`/${label.toLowerCase()}`}
+                className={`hover:text-gray-700 ${
+                  menu === label.toLowerCase() ? "text-black font-semibold" : ""
+                }`}
+                onClick={() => setMenu(label.toLowerCase())}
+              >
+                {label}
+              </Link>
+            </li>
+          ))}
         </ul>
 
         {/* Cart Icon */}
         <div className="flex items-center gap-4 md:gap-6">
           <Link to="/cart" className="relative">
             <img
-              src="https://img.icons8.com/?size=60&id=2212PsH6OEOq&format=png"
+              src="https://img.icons8.com/material-rounded/24/shopping-cart.png"
               alt="cart-icon"
               className="w-6"
             />
-            <span className="absolute -top-2 -right-2 bg-red-500 text-xs text-white rounded-full px-2 py-0.5 shadow">
+
+            <span className="absolute -top-2 -right-2 bg-blue-600 text-white text-[10px] font-bold w-5 h-5 flex items-center justify-center rounded-full shadow-md">
               {getTotalCartItems()}
             </span>
           </Link>
 
           {/* Search Button */}
-          <div className="hidden md:flex items-center gap-4"></div>
           <button
             className="bg-gray-300 p-2 rounded-lg hover:bg-gray-400 transition"
             onClick={() => setIsSearchOpen(!isSearchOpen)}
@@ -140,7 +136,7 @@ const Navbar = () => {
           className="md:hidden bg-white shadow-lg mt-2 rounded-lg overflow-hidden"
         >
           <ul className="flex flex-col items-start p-4 space-y-2 font-medium">
-            {["Men", "Women", "Kids"].map(
+            {["Men", "Women", "Kids", "About", "Contact"].map(
               (label, index) => (
                 <li key={index}>
                   <Link

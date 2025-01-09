@@ -6,7 +6,7 @@ const Contact = () => {
         <img
           src="https://images.unsplash.com/photo-1519608487953-e999c86e7455?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1200"
           alt="Fashion Store"
-          className="w-full h-64 object-cover opacity-80"
+          className="w-full h-80 object-cover opacity-80"
         />
         <div className="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center">
           <h1 className="text-5xl font-extrabold text-white">Contact Us</h1>

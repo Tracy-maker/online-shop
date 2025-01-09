@@ -1,23 +1,18 @@
 import { useRef } from "react";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+import { motion, useViewportScroll, useTransform } from "framer-motion";
 import OurStory from "./OurStory";
 
 const Hero = () => {
   const nextSectionRef = useRef(null);
 
-  // Slider settings for carousel
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 800,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 3500,
-    arrows: false,
-  };
+  // Track the scroll position
+  const { scrollY } = useViewportScroll();
+
+  // Transformations for images and text
+  const leftImageY = useTransform(scrollY, [0, 300], [0, -50]);
+  const rightImageY = useTransform(scrollY, [0, 300], [0, 50]);
+  const textOpacity = useTransform(scrollY, [0, 300], [1, 0]);
+  const textScale = useTransform(scrollY, [0, 300], [1, 0.8]);
 
   const handleScroll = () => {
     if (nextSectionRef.current) {
@@ -28,80 +23,64 @@ const Hero = () => {
   return (
     <>
       {/* Hero Section */}
-      <div className="h-screen bg-white flex flex-col md:flex-row mx-auto mb-10">
-        {/* Left Section */}
-        <div className="flex-1 flex flex-col justify-center gap-6 px-12 md:pl-16 sm:pl-8">
-          <h2 className="text-xl font-light uppercase text-gray-700 tracking-wide md:text-lg sm:text-base">
-            New Collection
-          </h2>
-          <h1 className="text-6xl font-bold text-gray-900 md:text-5xl sm:text-4xl xs:text-3xl leading-tight">
-            Elegance <br />
-            Redefined
-          </h1>
-          <p className="text-lg text-gray-600 font-light tracking-wide md:text-base sm:text-sm xs:text-xs">
-            Discover our exclusive high-end fashion line. Minimalist design
-            meets modern luxury, crafted for timeless sophistication.
-          </p>
-
-          <button
-            onClick={handleScroll}
-            className="mt-4 px-4 py-2 bg-gray-900 text-white font-medium text-sm rounded-full shadow-lg hover:bg-gray-700 transition-all duration-300 sm:mt-3 sm:py-3 xs:px-3 xs:py-1 animate-bounce"
+      <div className="relative h-screen bg-white flex items-center justify-center overflow-hidden">
+        {/* Image Grid with Motion */}
+        <div className="flex w-full h-full">
+          {/* Left Large Image */}
+          <motion.div
+            style={{ y: leftImageY }}
+            className="flex-1 relative"
           >
-            Our Story
-          </button>
-        </div>
+            <img
+              src="https://images.pexels.com/photos/19171591/pexels-photo-19171591/free-photo-of-black-and-white-photo-of-two-people-walking-on-a-street.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"
+              alt="Large Fashion"
+              className="w-full h-full object-cover"
+            />
+          </motion.div>
 
-        {/* Right Section with Carousel */}
-        <div className="hidden md:flex flex-1 items-center justify-center w-full h-auto relative overflow-hidden">
-          <div className="absolute top-0 left-0 w-full h-full">
-            <div
-              className="w-full h-full"
-              style={{
-                clipPath:
-                  "polygon(0 0, 100% 0, 100% 85%, 90% 88%, 80% 92%, 70% 90%, 60% 95%, 50% 92%, 40% 95%, 30% 90%, 20% 92%, 10% 88%, 0 90%)",
-                backgroundColor: "rgba(255, 255, 255, 0.8)", 
-              }}
+          {/* Right Smaller Image */}
+          <div className="flex flex-col flex-1 p-4 justify-center">
+            <motion.div
+              style={{ y: rightImageY }}
+              className="relative flex-1"
             >
-              <Slider {...settings} className="w-full h-full">
-                <div>
-                  <img
-                    src="https://images.pexels.com/photos/19171591/pexels-photo-19171591/free-photo-of-black-and-white-photo-of-two-people-walking-on-a-street.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"
-                    alt="fashion-carousel-1"
-                    className="w-full h-screen object-cover"
-                  />
-                </div>
-                <div>
-                  <img
-                    src="https://images.pexels.com/photos/17496497/pexels-photo-17496497.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"
-                    alt="fashion-carousel-2"
-                    className="w-full h-screen object-cover"
-                  />
-                </div>
-                <div>
-                  <img
-                    src="https://images.pexels.com/photos/4940756/pexels-photo-4940756.jpeg?auto=compress&cs=tinysrgb&w=600"
-                    alt="fashion-carousel-3"
-                    className="w-full h-screen object-cover"
-                  />
-                </div>
-                <div>
-                  <img
-                    src="https://images.pexels.com/photos/1619765/pexels-photo-1619765.jpeg?auto=compress&cs=tinysrgb&w=600"
-                    alt="fashion-carousel-4"
-                    className="w-full h-screen object-cover"
-                  />
-                </div>
-                <div>
-                  <img
-                    src="https://images.pexels.com/photos/27980152/pexels-photo-27980152/free-photo-of-elegant-couple-on-a-cliff-in-black-and-white.jpeg?auto=compress&cs=tinysrgb&w=600"
-                    alt="fashion-carousel-5"
-                    className="w-full h-screen object-cover"
-                  />
-                </div>
-              </Slider>
-            </div>
+              <img
+                src="https://images.pexels.com/photos/17496497/pexels-photo-17496497.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"
+                alt="Small Fashion"
+                className="w-full h-full object-cover"
+              />
+            </motion.div>
           </div>
         </div>
+
+        {/* Central Text */}
+        <motion.div
+          style={{
+            opacity: textOpacity,
+            scale: textScale,
+          }}
+          className="absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-40 text-white text-center"
+        >
+          <h1 className="text-[10rem] font-extrabold tracking-widest uppercase sm:text-7xl md:text-8xl leading-tight">
+            Elegant & Comfort
+          </h1>
+
+          <div className="mt-12">
+            <p className="text-xs sm:text-xs md:text-sm font-light max-w-3xl">
+              Established in 2019, we blend timeless elegance with unmatched
+              comfort to redefine modern luxury.
+            </p>
+          </div>
+
+          <div className="mt-12">
+            <button
+              onClick={handleScroll}
+              className="px-6 py-3 bg-white text-black font-medium text-sm rounded-full shadow-lg hover:bg-gray-200 transition-all"
+            >
+              Explore Our Story
+            </button>
+          </div>
+        </motion.div>
       </div>
 
       {/* Next Section */}
