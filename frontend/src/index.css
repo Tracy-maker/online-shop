@@ -15,6 +15,8 @@ body,
 p {
   font-family: "Poppins", sans-serif;
   font-weight: 300;
+  cursor: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJTPvn7x6UEtK9ZOa_2phnOXyThsVCVFjXUQ&s"),
+    auto;
 }
 
 .dropdown-icon {
@@ -26,9 +28,6 @@ p {
 .dropdown-icon.open {
   transform: rotate(180deg);
 }
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
 
 @layer utilities {
   .animate-marquee {
