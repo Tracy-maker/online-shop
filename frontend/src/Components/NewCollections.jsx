@@ -14,9 +14,6 @@ const NewCollections = () => {
     <div className="w-4/5 mx-auto flex flex-col items-center gap-8 mb-24">
       {/* Title Section */}
       <div className="text-center">
-        <h1 className="text-gray-800 text-4xl font-bold tracking-wider lg:text-3xl md:text-2xl sm:text-xl">
-          New Collections
-        </h1>
         <p className="text-gray-500 text-lg font-light mt-2 lg:text-base md:text-sm sm:text-xs">
           Discover the latest trends and exclusive styles curated just for you.
         </p>

@@ -26,15 +26,6 @@ const Shop = () => {
     return () => observer.disconnect();
   }, []);
 
-  const flowVariants = {
-    hidden: { opacity: 0, x: -50 },
-    visible: (i) => ({
-      opacity: 1,
-      x: 0,
-      transition: { delay: i * 0.2, duration: 0.8, ease: "easeOut" },
-    }),
-  };
-
   return (
     <div className="bg-gray-50">
       {/* Hero Section */}

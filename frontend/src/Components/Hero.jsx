@@ -33,25 +33,35 @@ const Hero = () => {
         }`}
       >
         {/* Video Background */}
-        {!isScrolled && (
-          <div className="absolute inset-0">
-            <video
-              src="./src/Assets/main.mp4"
-              autoPlay
-              loop
-              muted
-              className="w-full h-full object-cover"
-            ></video>
-          </div>
-        )}
+        <motion.div
+          className="absolute inset-0"
+          initial={{ clipPath: "inset(0% 0% 0% 0%)" }} // Full video
+          animate={{
+            clipPath: isScrolled
+              ? "inset(0% 0% 100% 0%)" // Fold up like blinds
+              : "inset(0% 0% 0% 0%)",
+          }}
+          transition={{
+            duration: 1.5,
+            ease: "easeInOut",
+          }}
+        >
+          <video
+            src="./src/Assets/main.mp4"
+            autoPlay
+            loop
+            muted
+            className="w-full h-full object-cover"
+          ></video>
+        </motion.div>
 
         {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/50 to-black/90"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-black/30 to-black/70"></div>
 
         {/* Central Content */}
         <motion.div
-          style={{ opacity }}
           className="relative z-10 flex flex-col items-center text-center text-white p-6 space-y-6"
+          style={{ opacity, marginTop: "30vh" }}
         >
           {/* Heading */}
           <motion.h1
@@ -80,7 +90,7 @@ const Hero = () => {
           {/* Explore Button */}
           <motion.button
             onClick={handleScroll}
-            className="px-6 py-3 bg-blue-600 text-white text-lg font-medium rounded-full shadow-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 transition-all"
+            className="px-6 py-3 bg-gray-50 text-gray-800 text-lg font-medium rounded-full shadow-lg hover:bg-white focus:ring-4 focus:ring-blue-300 transition-all"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
           >

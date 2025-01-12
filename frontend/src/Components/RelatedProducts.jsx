@@ -1,4 +1,4 @@
-import data_product from "../Assets/data";
+
 import Item from "./Item";
 
 const RelatedProducts = () => {
@@ -10,7 +10,7 @@ const RelatedProducts = () => {
       <hr className="w-52 h-1.5 rounded-lg bg-[#252525] md:w-40 md:h-1 sm:w-32 sm:h-[3px] xs:w-24" />
 
       <div className="mt-12 flex gap-8 md:gap-5 sm:gap-4 xs:grid xs:grid-cols-2 xs:gap-5">
-        {data_product.map((item, i) => (
+        {/* {data_product.map((item, i) => (
           <Item
             key={i}
             id={item.id}
@@ -19,7 +19,7 @@ const RelatedProducts = () => {
             new_price={item.new_price}
             old_price={item.old_price}
           />
-        ))}
+        ))} */}
       </div>
     </div>
   );
