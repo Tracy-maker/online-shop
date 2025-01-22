@@ -15,8 +15,7 @@ body,
 p {
   font-family: "Poppins", sans-serif;
   font-weight: 300;
-  cursor: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJTPvn7x6UEtK9ZOa_2phnOXyThsVCVFjXUQ&s"),
-    auto;
+  cursor: url("./src/Assets/leaf.png"), auto; /* Corrected to absolute path */
 }
 
 .dropdown-icon {

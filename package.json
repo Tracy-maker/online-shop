@@ -8,15 +8,17 @@
     "backend"
   ],
   "scripts": {
-    "dev:admin": "cd admin && npm run dev",
-    "dev:frontend": "cd frontend && npm run dev",
-    "dev:backend": "cd backend && npm run dev",
-    "dev": "concurrently \"npm run dev:admin\" \"npm run dev:frontend\" \"npm run dev:backend\"",
-    "build:admin": "cd admin && npm run build",
-    "build:frontend": "cd frontend && npm run build",
-    "build": "npm run build:admin && npm run build:frontend"
+    "dev:admin": "cd admin && yarn dev",
+    "dev:frontend": "cd frontend && yarn dev",
+    "dev:backend": "cd backend && yarn dev",
+    "dev": "yarn concurrently \"yarn dev:admin\" \"yarn dev:frontend\" \"yarn dev:backend\"",
+    "build:admin": "cd admin && yarn build",
+    "build:frontend": "cd frontend && yarn build",
+    "build": "yarn build:admin && yarn build:frontend"
   },
   "devDependencies": {
-    "concurrently": "^8.2.2"
+    "@types/node": "^22.10.6",
+    "concurrently": "^8.2.2",
+    "typescript": "^5.7.3"
   }
 }
