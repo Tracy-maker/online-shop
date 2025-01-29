@@ -3,9 +3,33 @@ import OrderList from "./OrderList";
 import OrderDetails from "./OrderDetails";
 import { useNavigate } from "react-router-dom";
 
-const OrderManagement = () => {
+// Define Types
+interface Product {
+  name: string;
+  model: string;
+  quantity: number;
+  price: string;
+}
+
+interface Customer {
+  name: string;
+  address: string;
+  phone: string;
+  paymentMethod: string;
+}
+
+interface Order {
+  id: string;
+  customer: Customer;
+  date: string;
+  status: string;
+  products: Product[];
+  total: string;
+}
+
+const OrderManagement: React.FC = () => {
   const navigate = useNavigate();
-  const [orders, setOrders] = useState([
+  const [orders, setOrders] = useState<Order[]>([
     {
       id: "ORD001",
       customer: {
@@ -41,9 +65,9 @@ const OrderManagement = () => {
     },
   ]);
 
-  const [selectedOrder, setSelectedOrder] = useState(null);
+  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
 
-  const handleUpdateStatus = (orderId, newStatus) => {
+  const handleUpdateStatus = (orderId: string, newStatus: string) => {
     setOrders((prevOrders) =>
       prevOrders.map((order) =>
         order.id === orderId ? { ...order, status: newStatus } : order

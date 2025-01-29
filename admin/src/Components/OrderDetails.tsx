@@ -1,6 +1,34 @@
-import PropTypes from "prop-types";
+import React from "react";
 
-const OrderDetails = ({ order }) => {
+interface Product {
+  name: string;
+  model: string;
+  quantity: number;
+  price: string;
+}
+
+interface Customer {
+  name: string;
+  address: string;
+  phone: string;
+  paymentMethod: string;
+}
+
+interface Order {
+  id: string;
+  customer: Customer;
+  date: string;
+  status: string;
+  products: Product[];
+  total: string;
+}
+
+interface OrderDetailsProps {
+  order: Order;
+  onBack: () => void; // Callback for navigating back
+}
+
+const OrderDetails: React.FC<OrderDetailsProps> = ({ order, onBack }) => {
   return (
     <div className="bg-white rounded-lg shadow-lg p-6 space-y-6">
       {/* Order Header */}
@@ -83,33 +111,16 @@ const OrderDetails = ({ order }) => {
       <p className="text-lg font-bold text-gray-800">
         Total: <span className="text-blue-600">{order.total}</span>
       </p>
+
+      {/* Back Button */}
+      <button
+        onClick={onBack}
+        className="px-6 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition"
+      >
+        Back
+      </button>
     </div>
   );
-};
-
-// PropTypes Validation
-OrderDetails.propTypes = {
-  order: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    customer: PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      address: PropTypes.string.isRequired,
-      phone: PropTypes.string.isRequired,
-      paymentMethod: PropTypes.string.isRequired,
-    }).isRequired,
-    date: PropTypes.string.isRequired,
-    status: PropTypes.string.isRequired,
-    products: PropTypes.arrayOf(
-      PropTypes.shape({
-        name: PropTypes.string.isRequired,
-        model: PropTypes.string.isRequired,
-        quantity: PropTypes.number.isRequired,
-        price: PropTypes.string.isRequired,
-      })
-    ).isRequired,
-    total: PropTypes.string.isRequired,
-  }).isRequired,
-  onBack: PropTypes.func.isRequired,
 };
 
 export default OrderDetails;

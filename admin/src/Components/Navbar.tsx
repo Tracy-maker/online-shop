@@ -1,22 +1,22 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const Navbar = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false); 
+const Navbar: React.FC = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false); // State with explicit type
   const navigate = useNavigate();
 
   // Logout functionality
-  const handleLogout = () => {
+  const handleLogout = (): void => {
     console.log("Logged out");
-    setIsLoggedIn(false); 
-    navigate("/login"); 
+    setIsLoggedIn(false);
+    navigate("/login");
   };
 
   // Login functionality
-  const handleLogin = () => {
+  const handleLogin = (): void => {
     console.log("Logged in");
-    setIsLoggedIn(true); 
-    navigate("/login"); 
+    setIsLoggedIn(true);
+    navigate("/login");
   };
 
   return (
@@ -24,7 +24,6 @@ const Navbar = () => {
       <div className="container mx-auto flex justify-between items-center px-6">
         {/* Store Name */}
         <div className="flex items-center space-x-4">
-        
           <h1 className="text-lg font-semibold tracking-wide text-gray-900">
             Rimberio ONLINE SOLUTION
           </h1>

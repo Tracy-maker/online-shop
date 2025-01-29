@@ -1,27 +1,25 @@
-import { useState } from "react";
+import { useState, ChangeEvent } from "react";
 import { useNavigate } from "react-router-dom";
+import { Product, SubcategoryOptions,subcategoryOptions } from "../types";
 
-const AddProduct = () => {
+const AddProduct: React.FC = () => {
   const navigate = useNavigate();
-  const [images, setImages] = useState([]);
-  const [productDetails, setProductDetails] = useState({
+  const [images, setImages] = useState<File[]>([]);
+  const [productDetails, setProductDetails] = useState<Product>({
+    id: "",
     name: "",
     description: "",
     category: "women",
     subcategory: "dress",
-    price: "",
+    price: 0,
     color: "Black",
     sizes: [],
     bestSeller: false,
   });
+
   const [loading, setLoading] = useState(false);
 
-  const subcategoryOptions = {
-    women: ["dress", "tops", "shirts", "pants", "accessories"],
-    men: ["shirts", "pants", "tops", "accessories"],
-    kids: ["dress", "tops", "shirts", "pants", "accessories"],
-  };
-  const toggleSize = (size) => {
+  const toggleSize = (size: string) => {
     setProductDetails((prevDetails) => ({
       ...prevDetails,
       sizes: prevDetails.sizes.includes(size)
@@ -30,8 +28,8 @@ const AddProduct = () => {
     }));
   };
 
-  const imageHandler = (e) => {
-    const selectedFiles = Array.from(e.target.files);
+  const imageHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    const selectedFiles = Array.from(e.target.files || []);
     if (selectedFiles.length > 4) {
       alert("You can upload a maximum of 4 images.");
       return;
@@ -39,28 +37,36 @@ const AddProduct = () => {
     setImages(selectedFiles);
   };
 
-  const changeHandler = (e) => {
-    const { name, value, type, checked } = e.target;
-    if (name.startsWith("size-")) {
-      const size = name.replace("size-", "");
-      setProductDetails({
-        ...productDetails,
-        sizes: { ...productDetails.sizes, [size]: parseInt(value, 10) || 0 },
-      });
-    } else if (type === "checkbox") {
-      setProductDetails({ ...productDetails, [name]: checked });
-    } else if (name === "category") {
-      setProductDetails({
-        ...productDetails,
-        category: value,
-        subcategory: subcategoryOptions[value][0],
-      });
-    } else {
-      setProductDetails({ ...productDetails, [name]: value });
+  const changeHandler = (
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value, type } = e.target as HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement;
+  
+    if (e.target instanceof HTMLInputElement) {
+      if (type === "checkbox") {
+        setProductDetails((prev) => ({ ...prev, [name]: (e.target as HTMLInputElement).checked }));
+      } else {
+        setProductDetails((prev) => ({ ...prev, [name]: value }));
+      }
+    } else if (e.target instanceof HTMLSelectElement) {
+      if (name === "category" && value in subcategoryOptions) {
+        const categoryKey = value as keyof SubcategoryOptions;
+        setProductDetails((prev) => ({
+          ...prev,
+          category: categoryKey,
+          subcategory: subcategoryOptions[categoryKey][0],
+        }));
+      } else {
+        setProductDetails((prev) => ({ ...prev, [name]: value }));
+      }
+    } else if (e.target instanceof HTMLTextAreaElement) {
+      setProductDetails((prev) => ({ ...prev, [name]: value }));
     }
   };
+  
+  
 
-  const validateForm = () => {
+  const validateForm = (): boolean => {
     if (
       !productDetails.name ||
       !productDetails.description ||
@@ -75,7 +81,7 @@ const AddProduct = () => {
     return true;
   };
 
-  const add_Product = async () => {
+  const addProduct = async () => {
     if (!validateForm()) return;
 
     setLoading(true);
@@ -123,18 +129,16 @@ const AddProduct = () => {
           description: "",
           category: "women",
           subcategory: "dress",
-          price: "",
+          price: 0,
           color: "Black",
-          usage: "work",
           sizes: [],
           bestSeller: false,
-          newProduct: false,
         });
         setImages([]);
       } else {
         throw new Error("Failed to add product.");
       }
-    } catch (error) {
+    } catch (error: any) {
       alert(error.message);
     } finally {
       setLoading(false);
@@ -172,7 +176,7 @@ const AddProduct = () => {
           />
         </div>
 
-        {/* Product Description */}
+        {/* Description */}
         <div>
           <label className="block text-lg font-medium mb-2">
             Description <span className="text-red-500">*</span>
@@ -181,12 +185,12 @@ const AddProduct = () => {
             value={productDetails.description}
             onChange={changeHandler}
             name="description"
-            rows="4"
+            rows={4}
             placeholder="Enter product description"
             className="w-full px-4 py-3 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 text-gray-700"
           ></textarea>
         </div>
-
+ 
         {/* Category and Subcategory */}
         <div className="grid grid-cols-2 gap-6">
           <div>
@@ -237,35 +241,22 @@ const AddProduct = () => {
             className="w-full px-4 py-3 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 text-gray-700"
           />
         </div>
-        {/* Color Dropdown */}
-        <div>
-          <label className="block text-lg font-medium mb-2">Color</label>
-          <select
-            value={productDetails.color}
-            onChange={changeHandler}
-            name="color"
-            className="w-full px-4 py-3 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 text-gray-700"
-          >
-            <option value="Black">Black</option>
-            <option value="White">White</option>
-            <option value="Purple">Purple</option>
-            <option value="Pink">Pink</option>
-            <option value="Burgundy">Burgundy</option>
-            <option value="Red">Red</option>
-            <option value="Blue">Blue</option>
-            <option value="Orange">Orange</option>
-            <option value="Beige">Beige</option>
-            <option value="Green">Green</option>
-            <option value="Brown">Brown</option>
-            <option value="Yellow">Yellow</option>
-            <option value="Grey">Grey</option>
-            <option value="Multicolor">Multicolor</option>
-            <option value="Brown Gray">Brown Gray</option>
-          </select>
-        </div>
-        {/* Usage and Sizes */}
-        <div className="grid grid-cols-2 gap-8">
-          {/* Best Seller */}
+
+        {/* Color and Best Seller */}
+        <div className="grid grid-cols-2 gap-6">
+          <div>
+            <label className="block text-lg font-medium mb-2">Color</label>
+            <select
+              value={productDetails.color}
+              onChange={changeHandler}
+              name="color"
+              className="w-full px-4 py-3 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 text-gray-700"
+            >
+              <option value="Black">Black</option>
+              <option value="White">White</option>
+              {/* Other options */}
+            </select>
+          </div>
           <div className="flex items-center gap-4">
             <input
               type="checkbox"
@@ -278,25 +269,25 @@ const AddProduct = () => {
               Add to Best Seller
             </label>
           </div>
+        </div>
 
-          {/* Sizes */}
-          <div>
-            <p className="mb-2">Select Sizes</p>
-            <div className="flex gap-3">
-              {["S", "M", "L", "XL", "XXL"].map((size) => (
-                <div
-                  key={size}
-                  onClick={() => toggleSize(size)}
-                  className={`px-3 py-1 cursor-pointer rounded-lg ${
-                    productDetails.sizes.includes(size)
-                      ? "bg-blue-500 text-white"
-                      : "bg-gray-200 text-gray-700"
-                  }`}
-                >
-                  {size}
-                </div>
-              ))}
-            </div>
+        {/* Sizes */}
+        <div>
+          <p className="mb-2">Select Sizes</p>
+          <div className="flex gap-3">
+            {["S", "M", "L", "XL", "XXL"].map((size) => (
+              <div
+                key={size}
+                onClick={() => toggleSize(size)}
+                className={`px-3 py-1 cursor-pointer rounded-lg ${
+                  productDetails.sizes.includes(size)
+                    ? "bg-blue-500 text-white"
+                    : "bg-gray-200 text-gray-700"
+                }`}
+              >
+                {size}
+              </div>
+            ))}
           </div>
         </div>
 
@@ -333,9 +324,9 @@ const AddProduct = () => {
           />
         </div>
 
-        {/* Add Button */}
+        {/* Add Product Button */}
         <button
-          onClick={add_Product}
+          onClick={addProduct}
           disabled={loading}
           className={`w-full py-4 rounded-lg font-semibold shadow-md transition ${
             loading

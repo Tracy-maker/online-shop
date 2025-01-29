@@ -1,9 +1,17 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, ChangeEvent } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-// Mock feedback data as a fallback
-const mockFeedbacks = [
+// Define types for feedback data
+interface Feedback {
+  id: number;
+  customerName: string;
+  message: string;
+  timestamp: string;
+  status: "Pending" | "Resolved";
+}
+
+const mockFeedbacks: Feedback[] = [
   {
     id: 1,
     customerName: "John Doe",
@@ -48,17 +56,19 @@ const mockFeedbacks = [
   },
 ];
 
-const CustomerFeedback = () => {
+const CustomerFeedback: React.FC = () => {
   const navigate = useNavigate();
 
   // States
-  const [feedbacks, setFeedbacks] = useState([]);
-  const [filteredFeedbacks, setFilteredFeedbacks] = useState([]);
-  const [search, setSearch] = useState("");
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [sortOption, setSortOption] = useState("Newest");
+  const [feedbacks, setFeedbacks] = useState<Feedback[]>([]);
+  const [filteredFeedbacks, setFilteredFeedbacks] = useState<Feedback[]>([]);
+  const [search, setSearch] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [sortOption, setSortOption] = useState<"Newest" | "Oldest" | "Customer Name">(
+    "Newest"
+  );
   const feedbacksPerPage = 5;
 
   // Fetch feedbacks on component mount
@@ -66,12 +76,10 @@ const CustomerFeedback = () => {
     const fetchFeedbacks = async () => {
       setLoading(true);
       try {
-        const { data } = await axios.get("/api/admin/feedbacks");
+        const { data } = await axios.get<Feedback[]>("/api/admin/feedbacks");
         if (!Array.isArray(data) || data.length === 0) {
-          console.warn("No data from API, using mock data.");
           throw new Error("No feedback data available from the API.");
         }
-        console.log("API Data fetched:", data);
         setFeedbacks(data);
         setFilteredFeedbacks(data);
         setError(null);
@@ -89,26 +97,26 @@ const CustomerFeedback = () => {
   }, []);
 
   // Filter feedbacks by search query
-  const handleSearch = (e) => {
+  const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.toLowerCase();
     setSearch(value);
     const filtered = feedbacks.filter((feedback) =>
       feedback.message.toLowerCase().includes(value)
     );
     setFilteredFeedbacks(filtered);
-    setCurrentPage(1); 
+    setCurrentPage(1);
   };
 
   // Sort feedbacks
-  const handleSort = (e) => {
-    const value = e.target.value;
+  const handleSort = (e: ChangeEvent<HTMLSelectElement>) => {
+    const value = e.target.value as "Newest" | "Oldest" | "Customer Name";
     setSortOption(value);
 
     const sorted = [...filteredFeedbacks].sort((a, b) => {
       if (value === "Newest") {
-        return new Date(b.timestamp) - new Date(a.timestamp);
+        return new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime();
       } else if (value === "Oldest") {
-        return new Date(a.timestamp) - new Date(b.timestamp);
+        return new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime();
       } else if (value === "Customer Name") {
         return a.customerName.localeCompare(b.customerName);
       }
@@ -119,7 +127,7 @@ const CustomerFeedback = () => {
   };
 
   // Resolve feedback status
-  const resolveFeedback = async (id) => {
+  const resolveFeedback = async (id: number) => {
     try {
       const confirmed = window.confirm(
         "Are you sure you want to mark this feedback as resolved?"
@@ -156,12 +164,9 @@ const CustomerFeedback = () => {
         Go Back
       </button>
 
-      <h1 className="text-3xl font-bold text-gray-800 mb-4">
-        Customer Feedback
-      </h1>
+      <h1 className="text-3xl font-bold text-gray-800 mb-4">Customer Feedback</h1>
       <p className="text-gray-600 mb-6">
-        Manage customer feedback efficiently. Respond to inquiries to maintain
-        high customer satisfaction.
+        Manage customer feedback efficiently. Respond to inquiries to maintain high customer satisfaction.
       </p>
 
       <div className="flex items-center gap-4 mb-6">
@@ -173,7 +178,7 @@ const CustomerFeedback = () => {
           className="flex-1 p-3 border border-gray-300 rounded-lg"
         />
         <select
-          onChange={(e) => handleSort(e)}
+          onChange={handleSort}
           value={sortOption}
           className="p-3 border border-gray-300 rounded-lg"
         >
@@ -184,21 +189,15 @@ const CustomerFeedback = () => {
       </div>
 
       {error && (
-        <div className="p-4 mb-4 text-sm text-red-800 bg-red-200 rounded-lg">
-          {error}
-        </div>
+        <div className="p-4 mb-4 text-sm text-red-800 bg-red-200 rounded-lg">{error}</div>
       )}
+
       <div className="bg-white p-6 rounded-lg shadow-lg">
-        <h2 className="text-2xl font-semibold text-gray-800 mb-4">
-          Recent Feedback
-        </h2>
+        <h2 className="text-2xl font-semibold text-gray-800 mb-4">Recent Feedback</h2>
         {loading ? (
           <div className="space-y-4">
             {[...Array(5)].map((_, index) => (
-              <div
-                key={index}
-                className="h-20 bg-gray-200 rounded-lg animate-pulse"
-              ></div>
+              <div key={index} className="h-20 bg-gray-200 rounded-lg animate-pulse"></div>
             ))}
           </div>
         ) : currentFeedbacks.length > 0 ? (
@@ -208,9 +207,7 @@ const CustomerFeedback = () => {
               className="flex justify-between items-center p-4 border border-gray-200 rounded-lg hover:shadow-md transition"
             >
               <div>
-                <p className="text-lg font-medium text-gray-700">
-                  {feedback.customerName}
-                </p>
+                <p className="text-lg font-medium text-gray-700">{feedback.customerName}</p>
                 <p className="text-sm text-gray-600">{feedback.message}</p>
                 <p className="text-sm text-gray-400">
                   {new Date(feedback.timestamp).toLocaleString()}

@@ -1,15 +1,49 @@
-import PropTypes from "prop-types";
+import React from "react";
 
-const OrderList = ({ orders, onSelectOrder, onUpdateStatus }) => {
+interface Product {
+  name: string;
+  model: string;
+  quantity: number;
+  price: string;
+}
+
+interface Customer {
+  name: string;
+  address: string;
+  phone: string;
+  paymentMethod: string;
+}
+
+interface Order {
+  id: string;
+  customer: Customer;
+  date: string;
+  status: string;
+  products: Product[];
+  total: string;
+}
+
+interface OrderListProps {
+  orders: Order[];
+  onSelectOrder: (order: Order) => void;
+  onUpdateStatus: (id: string, status: string) => void;
+}
+
+const OrderList: React.FC<OrderListProps> = ({
+  orders,
+  onSelectOrder,
+  onUpdateStatus,
+}) => {
   return (
     <div className="bg-gray-100 min-h-screen p-8">
-      <div className="space-y-8"> {/* Increased spacing between orders */}
+      <div className="space-y-8">
         {orders.map((order) => (
           <div
             key={order.id}
             className="bg-white rounded-xl shadow-md p-8 flex items-center justify-between hover:shadow-lg transform transition duration-150"
           >
-            <div className="flex items-center space-x-10"> {/* Increased spacing between details */}
+            {/* Order Details */}
+            <div className="flex items-center space-x-10">
               {/* Order ID */}
               <div>
                 <h2 className="text-lg font-semibold text-gray-700">
@@ -51,10 +85,10 @@ const OrderList = ({ orders, onSelectOrder, onUpdateStatus }) => {
               </div>
             </div>
 
-            {/* 操作按钮 */}
+            {/* Action Button */}
             <button
               onClick={() => onSelectOrder(order)}
-              className="px-8 py-3 text-sm font-semibold bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition duration-300" // Dark gray button
+              className="px-8 py-3 text-sm font-semibold bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition duration-300"
             >
               View Details
             </button>
@@ -63,34 +97,6 @@ const OrderList = ({ orders, onSelectOrder, onUpdateStatus }) => {
       </div>
     </div>
   );
-};
-
-// PropTypes 验证
-OrderList.propTypes = {
-  orders: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      customer: PropTypes.shape({
-        name: PropTypes.string.isRequired,
-        address: PropTypes.string.isRequired,
-        phone: PropTypes.string.isRequired,
-        paymentMethod: PropTypes.string.isRequired,
-      }).isRequired,
-      date: PropTypes.string.isRequired,
-      status: PropTypes.string.isRequired,
-      products: PropTypes.arrayOf(
-        PropTypes.shape({
-          name: PropTypes.string.isRequired,
-          model: PropTypes.string.isRequired,
-          quantity: PropTypes.number.isRequired,
-          price: PropTypes.string.isRequired,
-        })
-      ).isRequired,
-      total: PropTypes.string.isRequired,
-    })
-  ).isRequired,
-  onSelectOrder: PropTypes.func.isRequired,
-  onUpdateStatus: PropTypes.func.isRequired,
 };
 
 export default OrderList;

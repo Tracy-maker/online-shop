@@ -1,32 +1,51 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const ListProduct = () => {
-  const [allProducts, setAllProducts] = useState([]);
+// Define types for Product
+interface Product {
+  id: string;
+  name: string;
+  image: string;
+  old_price: number;
+  new_price: number;
+  category: string;
+}
+
+const ListProduct: React.FC = () => {
+  const [allProducts, setAllProducts] = useState<Product[]>([]); // Explicitly type as an array of Product
   const navigate = useNavigate();
 
-  const fetchInfo = async () => {
-    await fetch("http://localhost:4000/allproducts")
-      .then((res) => res.json())
-      .then((data) => {
-        setAllProducts(data);
-      });
-  };
-
-  const removeProduct = async (id) => {
-    if (window.confirm("Are you sure you want to remove this product?")) {
-      await fetch("http://localhost:4000/removeproduct", {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ id }),
-      });
-      await fetchInfo();
+  // Fetch products from the server
+  const fetchInfo = async (): Promise<void> => {
+    try {
+      const response = await fetch("http://localhost:4000/allproducts");
+      const data: Product[] = await response.json(); // Explicitly type as Product[]
+      setAllProducts(data);
+    } catch (error) {
+      console.error("Failed to fetch products:", error);
     }
   };
 
+  // Remove a product
+  const removeProduct = async (id: string): Promise<void> => {
+    if (window.confirm("Are you sure you want to remove this product?")) {
+      try {
+        await fetch("http://localhost:4000/removeproduct", {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ id }),
+        });
+        await fetchInfo(); // Refresh the product list after removal
+      } catch (error) {
+        console.error("Failed to remove product:", error);
+      }
+    }
+  };
+
+  // Fetch products on component mount
   useEffect(() => {
     fetchInfo();
   }, []);
@@ -58,9 +77,9 @@ const ListProduct = () => {
       {/* Product List */}
       <div className="divide-y divide-gray-200">
         {allProducts.length > 0 ? (
-          allProducts.map((product, index) => (
+          allProducts.map((product) => (
             <div
-              key={index}
+              key={product.id}
               className="grid grid-cols-6 gap-4 items-center p-4 hover:bg-gray-50 transition"
             >
               {/* Product Image */}
